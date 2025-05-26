@@ -1,0 +1,35 @@
+﻿using Il2Cpp;
+using MelonLoader;
+using ModSettings;
+
+
+namespace FeatSettings
+{
+    public class SnowWalkerSettings : FeatSpecificSettings<Feat_SnowWalker>
+    {
+        public SnowWalkerSettings(FeatSettingsManager manager) : base(manager) { }
+
+        public override void ApplyAdjustedFeatSettings()
+        {
+            if (mFeat == null)
+            {
+                return;
+            }
+            mFeat.m_NumKilometersRequired = KilometersRequired;
+            mFeat.m_StaminaRechargeFasterPercent = StartingLevel;
+        }
+
+
+        [Section("Snow Walker")]
+        [Name("Number of Kilometers Required")]
+        [Slider(100, 10000, 100)]
+        [Description("Sets required number of kilometers traveled to unlock Snow Walker.\nDefault: 1000km")]
+        public int KilometersRequired = 1000;
+
+
+        [Name("Stamina Recharge Rate Increase")]
+        [Slider(5, 500, 100)]
+        [Description("Sets the percent increase to stamina regeneration.\nDefault: 20% ")]
+        public int StartingLevel = 20;
+    }
+}
