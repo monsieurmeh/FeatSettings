@@ -28,8 +28,8 @@ namespace FeatSettings
 
 
         [Name("Stamina Recharge Rate Increase")]
-        [Slider(5, 500, 100)]
-        [Description("Sets the percent increase to stamina regeneration.\nDefault: 20% ")]
+        [Slider(5, 100, 20)]
+        [Description("Sets the percent increase to stamina regeneration while using Snow Walker.\nDefault: 20% ")]
         public int StartingLevel = 20;
     }
 }

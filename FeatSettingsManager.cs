@@ -39,12 +39,19 @@ namespace FeatSettings
 
         private void InitializeCustomSettings()
         {
-            mFeatSettingsDict.Add(typeof(Feat_FireMaster), new FireMasterSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_StraightToHeart), new StraightToTheHeartSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_SnowWalker), new SnowWalkerSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_BlizzardWalker), new BlizzardWalkerSettings(this));
             mFeatSettingsDict.Add(typeof(Feat_BookSmarts), new BookSmartsSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_CelestialNavigator), new CelestialNavigatorSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_ColdFusion), new ColdFusionSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_EfficientMachine), new EfficientMachineSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_ExpertTrapper), new ExpertTrapperSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_FireMaster), new FireMasterSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_FreeRunner), new FreeRunnerSettings(this));
             mFeatSettingsDict.Add(typeof(Feat_MasterHunter), new MasterHunterSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_NightWalker), new NightWalkerSettings(this));
             mFeatSettingsDict.Add(typeof(Feat_SettledMind), new SettledMindSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_SnowWalker), new SnowWalkerSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_StraightToHeart), new StraightToTheHeartSettings(this));
         }
 
 
@@ -94,12 +101,24 @@ namespace FeatSettings
             }
         }
 
-
+        //A simple "is this a that" check should be working here but il2cpp sorcery is hindering me... feh. have to re-grab the new stupid component i guess.
         private bool TryRegisterFeat(Feat feat)
         {
             switch (feat.m_FeatType)
             {
+                case FeatType.BlizzardWalker: return TryRegisterFeat<Feat_BlizzardWalker>(feat);
+                case FeatType.BookSmarts: return TryRegisterFeat<Feat_BookSmarts>(feat);
+                case FeatType.CelestialNavigator: return TryRegisterFeat<Feat_CelestialNavigator>(feat);
+                case FeatType.ColdFusion: return TryRegisterFeat<Feat_ColdFusion>(feat);
+                case FeatType.EfficientMachine: return TryRegisterFeat<Feat_EfficientMachine>(feat);
+                case FeatType.ExpertTrapper: return TryRegisterFeat<Feat_ExpertTrapper>(feat);
                 case FeatType.FireMaster: return TryRegisterFeat<Feat_FireMaster>(feat);
+                case FeatType.FreeRunner: return TryRegisterFeat<Feat_FreeRunner>(feat);
+                case FeatType.MasterHunter: return TryRegisterFeat<Feat_MasterHunter>(feat);
+                case FeatType.NightWalker: return TryRegisterFeat<Feat_NightWalker>(feat);
+                case FeatType.SettledMind: return TryRegisterFeat<Feat_SettledMind>(feat);
+                case FeatType.SnowWalker: return TryRegisterFeat<Feat_SnowWalker>(feat);
+                case FeatType.StraightToHeart: return TryRegisterFeat<Feat_StraightToHeart>(feat);
                 default:
                     Log($"Unknown feat {feat.name} of type {feat.GetType()}!");
                     return false;

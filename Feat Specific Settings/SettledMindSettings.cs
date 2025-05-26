@@ -18,10 +18,10 @@ namespace FeatSettings
             mFeat.m_ReadSpeedBoostPercent = PercentIncrease;
         }
 
-
+        [Section("Settled Mind")]
         [Name("Reading Speed Increase")]
-        [Slider(10, 1000, 100)]
-        [Description("Sets the percent increase to reading speed.\nDefault: 20")]
+        [Slider(5, 100, 20)]
+        [Description("Sets the percent increase to reading speed while using Settled Mind.\nDefault: 20")]
         public int PercentIncrease = 20;
 
         //Hinterland buried the toggle for disabling cabin fever with this perk in the middle of a gigantic update method, so this isn't going to be a thing for a long time. Sorry :/

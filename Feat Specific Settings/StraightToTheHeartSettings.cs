@@ -30,8 +30,8 @@ namespace FeatSettings
 
 
         [Name("Duration Increase")]
-        [Slider(5, 500, 100)]
-        [Description("Sets the duration increase percent of the feat.\nDefault: 25%")]
+        [Slider(5, 100, 20)]
+        [Description("Sets the percent duration increase of consumables while using Straight to the Heart.\nDefault: 25%")]
         public int DurationIncrease = 25;
     }
 }
