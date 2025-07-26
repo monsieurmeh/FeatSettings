@@ -7,6 +7,7 @@ using MelonLoader;
 using Il2CppTLD.Stats;
 using UnityEngine.SceneManagement;
 using ExpandedAiFramework;
+using UnityEngine.AddressableAssets;
 
 
 namespace FeatSettings
@@ -49,8 +50,20 @@ namespace FeatSettings
         [HarmonyPatch(typeof(Feat), nameof(Feat.TryToDisplayKicker))]
         private static class FeatPatches_TryToDisplayKicker
         {
-            private static bool PreFix()
+            private static bool Prefix()
             {
+                FeatSettingsManager.Instance.Log($"Attempting to stop kicker!");
+                return !SceneUtilities.IsSceneMenu(SceneUtilities.GetActiveSceneName());
+            }
+        }
+
+
+        [HarmonyPatch(typeof(FeatNotify), nameof(FeatNotify.ShowFeatUnlockedKicker), new Type[] { typeof(AssetReferenceTexture2D), typeof(string) })]
+        private static class FeatNotifyPatches_ShowFeatUnlockedKicker
+        {
+            private static bool Prefix(AssetReferenceTexture2D textureReference, string footer)
+            {
+                FeatSettingsManager.Instance.Log($"Attempting to stop kicker display!");
                 return !SceneUtilities.IsSceneMenu(SceneUtilities.GetActiveSceneName());
             }
         }

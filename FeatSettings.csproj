@@ -93,6 +93,7 @@
         <Reference Include="UnityEngine.InputModule" />
         <Reference Include="UnityEngine.Il2CppAssetBundleManager" />
         <Reference Include="UnityEngine.Il2CppImageConversionManager" />
+        <Reference Include="Unity.Addressables" />
       <Reference Include="ModSettings">
         <HintPath>..\..\..\..\Games\Steam\steamapps\common\TheLongDark\Mods\ModSettings.dll</HintPath>
       </Reference>
