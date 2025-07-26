@@ -22,7 +22,7 @@ namespace FeatSettings
 
         protected bool Initialize()
         {
-            FeatSettingsManager.Instance?.Initialize();
+            FeatSettingsManager.Instance?.Initialize(LoggerInstance);
             return FeatSettingsManager.Instance != null;
         }
 
