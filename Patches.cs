@@ -2,6 +2,11 @@
 using Il2Cpp;
 using UnityEngine;
 using Il2CppTLD.AI;
+using Il2CppNodeCanvas.Tasks.Actions;
+using MelonLoader;
+using Il2CppTLD.Stats;
+using UnityEngine.SceneManagement;
+using ExpandedAiFramework;
 
 
 namespace FeatSettings
@@ -37,6 +42,16 @@ namespace FeatSettings
                 }
                 FeatSettingsManager.Instance.Log($"Cougar killed, increasing Big Cat Killer progress! Current: {masterHunterSettings.Feat?.GetNormalizedProgress()} | after: {(float)(masterHunterSettings.Feat.GetNormalizedProgress() + (1f / masterHunterSettings.KillCountRequirement))}");
                 masterHunterSettings.Feat?.SetNormalizedProgress((float)(masterHunterSettings.Feat.GetNormalizedProgress() + (1f / masterHunterSettings.KillCountRequirement)));
+            }
+        }
+
+
+        [HarmonyPatch(typeof(Feat), nameof(Feat.TryToDisplayKicker))]
+        private static class FeatPatches_TryToDisplayKicker
+        {
+            private static bool PreFix()
+            {
+                return !SceneUtilities.IsSceneMenu(SceneUtilities.GetActiveSceneName());
             }
         }
     }

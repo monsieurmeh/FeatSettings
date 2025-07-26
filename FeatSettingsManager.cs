@@ -28,11 +28,14 @@ namespace FeatSettings
 
         #endregion
 
+
         private Settings mSettings;
         private Dictionary<Type, FeatSpecificSettingsBase> mFeatSettingsDict = new Dictionary<Type, FeatSpecificSettingsBase>();
+        private MelonLogger.Instance mLogger;
 
-        public void Initialize()
+        public void Initialize(MelonLogger.Instance logger)
         {
+            mLogger = logger;
             InitializeSystems();
             InitializeCustomSettings();
         }
@@ -63,8 +66,7 @@ namespace FeatSettings
 
         public void Log(string msg)
         {
-            MelonLogger.Msg(msg);
-            //mLogger.Log(msg, FlaggedLoggingLevel.Debug);
+            mLogger.Msg(msg);
         }
 
 
@@ -162,7 +164,6 @@ namespace FeatSettings
             settings = specificSettings;
             return true;
         }
-
 
         #region Interop
 
