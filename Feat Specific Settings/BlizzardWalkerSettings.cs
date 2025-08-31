@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class BlizzardWalkerSettings : FeatSpecificSettings<Feat_BlizzardWalker>
     {
-        public BlizzardWalkerSettings(FeatSettingsManager manager) : base(manager) { }
+        public BlizzardWalkerSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

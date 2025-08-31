@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class CelestialNavigatorSettings : FeatSpecificSettings<Feat_CelestialNavigator>
     {
-        public CelestialNavigatorSettings(FeatSettingsManager manager) : base(manager) { }
+        public CelestialNavigatorSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

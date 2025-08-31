@@ -8,7 +8,7 @@ namespace FeatSettings
     {
         protected FeatSettingsManager mManager;
 
-        public Settings(FeatSettingsManager manager)
+        public Settings(FeatSettingsManager manager) : base(Path.Combine("FeatSettings", "FeatSettings"))
         {
             mManager = manager;
             Initialize();

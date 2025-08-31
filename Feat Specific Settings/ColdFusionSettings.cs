@@ -8,7 +8,7 @@ namespace FeatSettings
 {
     public class ColdFusionSettings : FeatSpecificSettings<Feat_ColdFusion>
     {
-        public ColdFusionSettings(FeatSettingsManager manager) : base(manager) { }
+        public ColdFusionSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
 
         public override void ApplyAdjustedFeatSettings()

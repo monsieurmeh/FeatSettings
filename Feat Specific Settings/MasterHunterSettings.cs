@@ -8,7 +8,7 @@ namespace FeatSettings
 {
     public class MasterHunterSettings : FeatSpecificSettings<Feat_MasterHunter>
     {
-        public MasterHunterSettings(FeatSettingsManager manager) : base(manager) { }
+        public MasterHunterSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
 
         public override void ApplyAdjustedFeatSettings()

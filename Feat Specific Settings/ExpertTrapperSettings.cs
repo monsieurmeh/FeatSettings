@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class ExpertTrapperSettings : FeatSpecificSettings<Feat_ExpertTrapper>
     {
-        public ExpertTrapperSettings(FeatSettingsManager manager) : base(manager) { }
+        public ExpertTrapperSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

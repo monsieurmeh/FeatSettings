@@ -8,7 +8,7 @@ namespace FeatSettings
 {
     public class NightWalkerSettings : FeatSpecificSettings<Feat_NightWalker>
     {
-        public NightWalkerSettings(FeatSettingsManager manager) : base(manager) { }
+        public NightWalkerSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
 
         public override void ApplyAdjustedFeatSettings()

@@ -8,7 +8,7 @@ namespace FeatSettings
 {
     public class StraightToTheHeartSettings : FeatSpecificSettings<Feat_StraightToHeart>
     {
-        public StraightToTheHeartSettings(FeatSettingsManager manager) : base(manager) { }
+        public StraightToTheHeartSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
 
         public override void ApplyAdjustedFeatSettings()

@@ -1,6 +1,8 @@
 ﻿using Harmony;
 using Il2Cpp;
+using Il2CppTLD.AI;
 using MelonLoader;
+using MelonLoader.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,7 @@ namespace FeatSettings
 
         #endregion
 
-
+        private const string ModName = "FeatSettings";
         private Settings mSettings;
         private Dictionary<Type, FeatSpecificSettingsBase> mFeatSettingsDict = new Dictionary<Type, FeatSpecificSettingsBase>();
         private MelonLogger.Instance mLogger;
@@ -42,24 +44,25 @@ namespace FeatSettings
 
         private void InitializeCustomSettings()
         {
-            mFeatSettingsDict.Add(typeof(Feat_BlizzardWalker), new BlizzardWalkerSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_BookSmarts), new BookSmartsSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_CelestialNavigator), new CelestialNavigatorSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_ColdFusion), new ColdFusionSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_EfficientMachine), new EfficientMachineSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_ExpertTrapper), new ExpertTrapperSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_FireMaster), new FireMasterSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_FreeRunner), new FreeRunnerSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_MasterHunter), new MasterHunterSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_NightWalker), new NightWalkerSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_SettledMind), new SettledMindSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_SnowWalker), new SnowWalkerSettings(this));
-            mFeatSettingsDict.Add(typeof(Feat_StraightToHeart), new StraightToTheHeartSettings(this));
+            mFeatSettingsDict.Add(typeof(Feat_BlizzardWalker), new BlizzardWalkerSettings(this, Path.Combine(ModName, nameof(BlizzardWalkerSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_BookSmarts), new BookSmartsSettings(this, Path.Combine(ModName, nameof(BookSmartsSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_CelestialNavigator), new CelestialNavigatorSettings(this, Path.Combine(ModName, nameof(CelestialNavigatorSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_ColdFusion), new ColdFusionSettings(this, Path.Combine(ModName, nameof(ColdFusionSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_EfficientMachine), new EfficientMachineSettings(this, Path.Combine(ModName, nameof(EfficientMachineSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_ExpertTrapper), new ExpertTrapperSettings(this, Path.Combine(ModName, nameof(ExpertTrapperSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_FireMaster), new FireMasterSettings(this, Path.Combine(ModName, nameof(FireMasterSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_FreeRunner), new FreeRunnerSettings(this, Path.Combine(ModName, nameof(FreeRunnerSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_MasterHunter), new MasterHunterSettings(this, Path.Combine(ModName, nameof(MasterHunterSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_NightWalker), new NightWalkerSettings(this, Path.Combine(ModName, nameof(NightWalkerSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_SettledMind), new SettledMindSettings(this, Path.Combine(ModName, nameof(SettledMindSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_SnowWalker), new SnowWalkerSettings(this, Path.Combine(ModName, nameof(SnowWalkerSettings)), ModName));
+            mFeatSettingsDict.Add(typeof(Feat_StraightToHeart), new StraightToTheHeartSettings(this, Path.Combine(ModName, nameof(StraightToTheHeartSettings)), ModName));
         }
 
 
         private void InitializeSystems()
         {
+            Directory.CreateDirectory(Path.Combine(MelonEnvironment.ModsDirectory, ModName));
             mSettings = new Settings(this);
         }
 

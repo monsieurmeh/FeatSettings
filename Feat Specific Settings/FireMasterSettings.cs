@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class FireMasterSettings : FeatSpecificSettings<Feat_FireMaster>
     {
-        public FireMasterSettings(FeatSettingsManager manager) : base(manager) { }
+        public FireMasterSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

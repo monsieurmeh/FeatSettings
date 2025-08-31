@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class BookSmartsSettings : FeatSpecificSettings<Feat_BookSmarts>
     {
-        public BookSmartsSettings(FeatSettingsManager manager) : base(manager) { }
+        public BookSmartsSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

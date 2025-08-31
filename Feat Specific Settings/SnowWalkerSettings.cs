@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class SnowWalkerSettings : FeatSpecificSettings<Feat_SnowWalker>
     {
-        public SnowWalkerSettings(FeatSettingsManager manager) : base(manager) { }
+        public SnowWalkerSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

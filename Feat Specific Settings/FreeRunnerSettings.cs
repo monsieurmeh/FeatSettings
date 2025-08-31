@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class FreeRunnerSettings : FeatSpecificSettings<Feat_FreeRunner>
     {
-        public FreeRunnerSettings(FeatSettingsManager manager) : base(manager) { }
+        public FreeRunnerSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

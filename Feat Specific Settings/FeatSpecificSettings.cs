@@ -7,10 +7,12 @@ namespace FeatSettings
     public abstract class FeatSpecificSettingsBase : JsonModSettings
     {
         protected FeatSettingsManager mManager;
+        protected string mMenuName;
 
-        public FeatSpecificSettingsBase(FeatSettingsManager manager)
+        public FeatSpecificSettingsBase(FeatSettingsManager manager, string path, string menuName) : base (path)
         {
             mManager = manager;
+            mMenuName = menuName;
             Initialize();
         }
 
@@ -19,7 +21,7 @@ namespace FeatSettings
         {
             try
             {
-                AddToModSettings("FeatSettings");
+                AddToModSettings(mMenuName);
                 RefreshGUI();
                 ApplyAdjustedFeatSettings();
             }
@@ -35,6 +37,7 @@ namespace FeatSettings
             try
             {
                 ApplyAdjustedFeatSettings();
+                base.OnConfirm();
             }
             catch (Exception e)
             {
@@ -53,7 +56,7 @@ namespace FeatSettings
 
         public T? Feat { get { return mFeat; } }
 
-        public FeatSpecificSettings(FeatSettingsManager manager) : base(manager) { }
+        public FeatSpecificSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public virtual void Initialize(T tFeat)
         {

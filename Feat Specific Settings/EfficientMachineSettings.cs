@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class EfficientMachineSettings : FeatSpecificSettings<Feat_EfficientMachine>
     {
-        public EfficientMachineSettings(FeatSettingsManager manager) : base(manager) { }
+        public EfficientMachineSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {

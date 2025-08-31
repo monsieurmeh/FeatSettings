@@ -7,7 +7,7 @@ namespace FeatSettings
 {
     public class SettledMindSettings : FeatSpecificSettings<Feat_SettledMind>
     {
-        public SettledMindSettings(FeatSettingsManager manager) : base(manager) { }
+        public SettledMindSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
         public override void ApplyAdjustedFeatSettings()
         {
