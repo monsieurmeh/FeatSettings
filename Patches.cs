@@ -20,6 +20,7 @@ namespace FeatSettings
             private static void Prefix(string text, FeatsManager __instance)
             {
                 if (!Utils.TryGetField(text, "FeatSettingsData", out string data)) return;
+                MelonLogger.Msg(data);
                 FeatSettingsManager.Instance.Deserialize(data);
             }
         }
@@ -56,8 +57,13 @@ namespace FeatSettings
 
                 int cougarsKilled = FeatSettingsManager.Instance.Data.CougarsKilled;
                 int cougarsNeeded = masterHunterSettings.KillCountRequirement;
-                FeatSettingsManager.Instance.Log($"Cougar killed, increasing Big Cat Killer progress! Current: {(Math.Max(cougarsKilled, cougarsNeeded) / cougarsNeeded)} | after: {Math.Max(cougarsKilled + 1, cougarsNeeded)/cougarsNeeded}");
+                FeatSettingsManager.Instance.Log($"Cougar killed, increasing Big Cat Killer progress! Current: {Math.Min(cougarsKilled, cougarsNeeded)} of {cougarsNeeded} | after: {Math.Min(cougarsKilled + 1, cougarsNeeded)} of {cougarsNeeded}");
                 FeatSettingsManager.Instance.Data.CougarsKilled++;
+                if (FeatSettingsManager.Instance.Data.CougarsKilled >= masterHunterSettings.KillCountRequirement)
+                {
+
+                    GameManager.GetFeatsManager().GetFeat(FeatType.MasterHunter).SetNormalizedProgress(1.0f);
+                }
                 SaveGameSystem.SaveProfile();
             }
         }
