@@ -5,5 +5,5 @@ using System.Reflection;
 [assembly: AssemblyCopyright("MonsiuerMeh")]
 [assembly: AssemblyVersion("1.1.3")]
 [assembly: AssemblyFileVersion("1.1.3")]
-[assembly: MelonInfo(typeof(FeatSettings.Main), "FeatSettings", "1.1.3", "MonsieurMeh", null)]
+[assembly: MelonInfo(typeof(FeatSettings.Main), "FeatSettings", "1.1.4", "MonsieurMeh", null)]
 [assembly: MelonGame("Hinterland", "TheLongDark")]

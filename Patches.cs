@@ -14,6 +14,26 @@ namespace FeatSettings
 {
     internal class Patches
     {
+        [HarmonyPatch(typeof(FeatsManager), nameof(FeatsManager.Deserialize), new Type[] { typeof(string) })]
+        private static class FeatsManagerPatches_Deserialize
+        {
+            private static void Prefix(string text, FeatsManager __instance)
+            {
+                if (!Utils.TryGetField(text, "FeatSettingsData", out string data)) return;
+                MelonLogger.Msg(data);
+                FeatSettingsManager.Instance.Deserialize(data);
+            }
+        }
+
+        [HarmonyPatch(typeof(FeatsManager), nameof(FeatsManager.Serialize))]
+        private static class FeatsManagerPatches_Serialize
+        {
+            private static void Postfix(ref string __result)
+            {
+                __result = Utils.AddOrUpdateField(__result, "FeatSettingsData", FeatSettingsManager.Instance.Serialize());
+            }
+        }
+
         [HarmonyPatch(typeof(FeatsManager), nameof(FeatsManager.InstantiateFeatPrefab), new Type[] { typeof(GameObject) })]
         private static class FeatsManagerPatches_InstantiateFeatPrefab
         {
@@ -24,28 +44,29 @@ namespace FeatSettings
         }
 
 
-        [HarmonyPatch(typeof(CougarManager), nameof(CougarManager.OnCougarDeath), new Type[] { typeof(SpawnRegion) })]
-        private static class CougarManagerPatches_OnCougarDeath
+        [HarmonyPatch(typeof(BaseAi), nameof(BaseAi.EnterDead))]
+        private static class BaseAiPatches_EnterDead
         {
-            private static void Postfix(SpawnRegion spawnRegion)
+            private static void Prefix(BaseAi __instance)
             {
-                if (spawnRegion == null)
+                if (__instance == null) return;
+                if (__instance.Cougar == null) return;
+                if (__instance.m_ForceToCorpse) return;
+                if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
+                if (settings is not MasterHunterSettings masterHunterSettings) return;
+
+                int cougarsKilled = FeatSettingsManager.Instance.Data.CougarsKilled;
+                int cougarsNeeded = masterHunterSettings.KillCountRequirement;
+                FeatSettingsManager.Instance.Log($"Cougar killed, increasing Big Cat Killer progress! Current: {Math.Min(cougarsKilled, cougarsNeeded)} of {cougarsNeeded} | after: {Math.Min(cougarsKilled + 1, cougarsNeeded)} of {cougarsNeeded}");
+                FeatSettingsManager.Instance.Data.CougarsKilled++;
+                if (FeatSettingsManager.Instance.Data.CougarsKilled >= masterHunterSettings.KillCountRequirement)
                 {
-                    return;
+
+                    GameManager.GetFeatsManager().GetFeat(FeatType.MasterHunter).SetNormalizedProgress(1.0f);
                 }
-                if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings))
-                {
-                    return;
-                }
-                if (settings is not MasterHunterSettings masterHunterSettings)
-                {
-                    return;
-                }
-                FeatSettingsManager.Instance.Log($"Cougar killed, increasing Big Cat Killer progress! Current: {masterHunterSettings.Feat?.GetNormalizedProgress()} | after: {(float)(masterHunterSettings.Feat.GetNormalizedProgress() + (1f / masterHunterSettings.KillCountRequirement))}");
-                masterHunterSettings.Feat?.SetNormalizedProgress((float)(masterHunterSettings.Feat.GetNormalizedProgress() + (1f / masterHunterSettings.KillCountRequirement)));
+                SaveGameSystem.SaveProfile();
             }
         }
-
 
         [HarmonyPatch(typeof(Feat), nameof(Feat.TryToDisplayKicker))]
         private static class FeatPatches_TryToDisplayKicker

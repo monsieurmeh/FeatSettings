@@ -2,6 +2,7 @@
 using UnityEngine;
 using FeatSettings;
 using System.Reflection;
+using Il2Cpp;
 
 
 namespace FeatSettings
@@ -18,7 +19,6 @@ namespace FeatSettings
         {
             LoggerInstance.Msg(Shutdown() ? "Shutdown Successfully!" : "Shutdown Errors!");
         }
-
 
         protected bool Initialize()
         {
