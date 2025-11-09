@@ -2,6 +2,7 @@
 using Il2Cpp;
 using Il2CppTLD.AI;
 using MelonLoader;
+using MelonLoader.TinyJSON;
 using MelonLoader.Utils;
 using System;
 using System.Collections.Generic;
@@ -30,10 +31,21 @@ namespace FeatSettings
 
         #endregion
 
+        [Serializable]
+        public class FeatSettingsData
+        {
+            [Include] int mCougarsKilled = 0;
+
+            public int CougarsKilled { get { return mCougarsKilled; } set { mCougarsKilled = value; } }
+        }
+
         private const string ModName = "FeatSettings";
         private Settings mSettings;
         private Dictionary<Type, FeatSpecificSettingsBase> mFeatSettingsDict = new Dictionary<Type, FeatSpecificSettingsBase>();
         private MelonLogger.Instance mLogger;
+        private FeatSettingsData mData = new FeatSettingsData();
+
+        public FeatSettingsData Data { get { return mData; } }
 
         public void Initialize(MelonLogger.Instance logger)
         {
@@ -65,6 +77,15 @@ namespace FeatSettings
             Directory.CreateDirectory(Path.Combine(MelonEnvironment.ModsDirectory, ModName));
             mSettings = new Settings(this);
         }
+
+        
+        public void Deserialize(string data)
+        {
+            Variant variant = JSON.Load(data);
+            JSON.Populate(variant, mData);
+        }
+
+        public string Serialize() => JSON.Dump(mData, EncodeOptions.NoTypeHints);
 
 
         public void Log(string msg)
