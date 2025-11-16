@@ -59,11 +59,7 @@ namespace FeatSettings
                 int cougarsNeeded = masterHunterSettings.KillCountRequirement;
                 FeatSettingsManager.Instance.Log($"Cougar killed, increasing Big Cat Killer progress! Current: {Math.Min(cougarsKilled, cougarsNeeded)} of {cougarsNeeded} | after: {Math.Min(cougarsKilled + 1, cougarsNeeded)} of {cougarsNeeded}");
                 FeatSettingsManager.Instance.Data.CougarsKilled++;
-                if (FeatSettingsManager.Instance.Data.CougarsKilled >= masterHunterSettings.KillCountRequirement)
-                {
-
-                    GameManager.GetFeatsManager().GetFeat(FeatType.MasterHunter).SetNormalizedProgress(1.0f);
-                }
+                masterHunterSettings.MaybeUnlock();
                 SaveGameSystem.SaveProfile();
             }
         }
@@ -86,6 +82,32 @@ namespace FeatSettings
             {
                 FeatSettingsManager.Instance.Log($"Attempting to stop kicker display!");
                 return !SceneUtilities.IsSceneMenu(SceneUtilities.GetActiveSceneName());
+            }
+        }
+
+        [HarmonyPatch(typeof(ConsoleManager), nameof(ConsoleManager.Initialize))]
+        internal class ConsoleManagerPatches_Initialize
+        {
+            private static void Postfix()
+            {
+                uConsole.RegisterCommand("SetCougarKills", new Action(() =>
+                {
+                    string command = uConsole.GetString();
+                    if (command == null || command.Length == 0)
+                    {
+                        FeatSettingsManager.Instance.Log($"Enter kill quantity!");
+                        return;
+                    }
+                    if (!int.TryParse(command, out int value))
+                    {
+                        FeatSettingsManager.Instance.Log($"Enter kill quantity as integer!");
+                        return;
+                    }
+                    FeatSettingsManager.Instance.Data.CougarsKilled = value;
+                    if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
+                    if (settings is not MasterHunterSettings masterHunterSettings) return;
+                    masterHunterSettings.MaybeUnlock();
+                }));
             }
         }
     }
