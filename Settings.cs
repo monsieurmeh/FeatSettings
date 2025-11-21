@@ -32,7 +32,7 @@ namespace FeatSettings
         public int InterloperFeatCount = 2;
 
         [Name("Misery Feat Count")]
-        [Slider(1, 6, 6)]
+        [Slider(0, 6, 7)]
         public int MiseryFeatCount = 0;
 
         [Name("Custom Feat Count")]
