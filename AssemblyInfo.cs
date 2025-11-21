@@ -3,7 +3,7 @@ using System.Reflection;
 
 [assembly: AssemblyTitle("FeatSettings")]
 [assembly: AssemblyCopyright("MonsiuerMeh")]
-[assembly: AssemblyVersion("1.1.3")]
-[assembly: AssemblyFileVersion("1.1.3")]
-[assembly: MelonInfo(typeof(FeatSettings.Main), "FeatSettings", "1.1.4", "MonsieurMeh", null)]
+[assembly: AssemblyVersion("1.1.5")]
+[assembly: AssemblyFileVersion("1.1.5")]
+[assembly: MelonInfo(typeof(FeatSettings.Main), "FeatSettings", "1.1.5", "MonsieurMeh", null)]
 [assembly: MelonGame("Hinterland", "TheLongDark")]
