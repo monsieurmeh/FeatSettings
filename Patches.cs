@@ -8,6 +8,7 @@ using Il2CppTLD.Stats;
 using UnityEngine.SceneManagement;
 using ExpandedAiFramework;
 using UnityEngine.AddressableAssets;
+using Il2CppTLD.Gameplay;
 
 
 namespace FeatSettings
@@ -59,11 +60,7 @@ namespace FeatSettings
                 int cougarsNeeded = masterHunterSettings.KillCountRequirement;
                 FeatSettingsManager.Instance.Log($"Cougar killed, increasing Big Cat Killer progress! Current: {Math.Min(cougarsKilled, cougarsNeeded)} of {cougarsNeeded} | after: {Math.Min(cougarsKilled + 1, cougarsNeeded)} of {cougarsNeeded}");
                 FeatSettingsManager.Instance.Data.CougarsKilled++;
-                if (FeatSettingsManager.Instance.Data.CougarsKilled >= masterHunterSettings.KillCountRequirement)
-                {
-
-                    GameManager.GetFeatsManager().GetFeat(FeatType.MasterHunter).SetNormalizedProgress(1.0f);
-                }
+                masterHunterSettings.MaybeUnlock();
                 SaveGameSystem.SaveProfile();
             }
         }
@@ -87,6 +84,103 @@ namespace FeatSettings
                 FeatSettingsManager.Instance.Log($"Attempting to stop kicker display!");
                 return !SceneUtilities.IsSceneMenu(SceneUtilities.GetActiveSceneName());
             }
+        }
+
+        [HarmonyPatch(typeof(ConsoleManager), nameof(ConsoleManager.Initialize))]
+        internal class ConsoleManagerPatches_Initialize
+        {
+            private static void Postfix()
+            {
+                uConsole.RegisterCommand("SetCougarKills", new Action(() =>
+                {
+                    string command = uConsole.GetString();
+                    if (command == null || command.Length == 0)
+                    {
+                        FeatSettingsManager.Instance.Log($"Enter kill quantity!");
+                        return;
+                    }
+                    if (!int.TryParse(command, out int value))
+                    {
+                        FeatSettingsManager.Instance.Log($"Enter kill quantity as integer!");
+                        return;
+                    }
+                    FeatSettingsManager.Instance.Data.CougarsKilled = value;
+                    if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
+                    if (settings is not MasterHunterSettings masterHunterSettings) return;
+                    masterHunterSettings.MaybeUnlock();
+                }));
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(Panel_MainMenu), nameof(Panel_MainMenu.GetNumFeatsForXPMode))]
+    internal class Panel_MainMenuPatches_GetNumFeatsForXPMode
+    {
+        private static void Postfix(ref int __result, Panel_MainMenu __instance)
+        {
+            FeatSettingsManager manager = FeatSettingsManager.Instance;
+            if (__instance.m_ActiveFeatObjects == null) return;
+            if (__instance.m_ActiveFeatObjects.Count == 0) return;
+            if (__instance.m_ActiveFeatObjects.Count < 9)
+            {
+                manager.Log($"active feat count: {__instance.m_ActiveFeatObjects.Count}");
+                GameObject[] newActiveFeatObjects = new GameObject[9];
+                for (int i = 0, iMax = __instance.m_ActiveFeatObjects.Count; i < iMax; i++)
+                {
+                    manager.Log($"copying object {i}");
+                    newActiveFeatObjects[i] = __instance.m_ActiveFeatObjects[i];
+                    manager.Log($"copied object {i}");
+                }
+                for (int i = __instance.m_ActiveFeatObjects.Count, iMax = 9; i < iMax; i++)
+                {
+                    manager.Log($"instantiating object {i}");
+                    newActiveFeatObjects[i] = GameObject.Instantiate(newActiveFeatObjects[i - 1], newActiveFeatObjects[i - 1].transform.parent);
+                    manager.Log($"instantiated object {i}");
+                }
+                __instance.m_ActiveFeatObjects = newActiveFeatObjects;
+            }
+            GameModeConfig currentConfig = ExperienceModeManager.s_CurrentGameMode;
+            if (currentConfig == null)
+            {
+                __result = 0;
+                return;
+            }
+            ExperienceMode currentMode = currentConfig.m_XPMode;
+            if (currentMode == null)
+            {
+                __result = 0;
+                return;
+            }
+            switch (currentMode.m_ModeType)
+            {
+                case ExperienceModeType.Pilgrim: __result = manager.Settings.PilgrimFeatCount; break;
+                case ExperienceModeType.Voyageur: __result = manager.Settings.VoyagerFeatCount; break;
+                case ExperienceModeType.Stalker: __result = manager.Settings.StalkerFeatCount; break;
+                case ExperienceModeType.Interloper: __result = manager.Settings.InterloperFeatCount; break;
+                case ExperienceModeType.Misery: __result = manager.Settings.MiseryFeatCount; break;
+                case ExperienceModeType.Custom: __result = manager.Settings.CustomFeatCount; break;
+                default: __result = 0; break;
+            }
+        }
+    }
+
+
+    [HarmonyPatch(typeof(FeatEnabledTracker), nameof(FeatEnabledTracker.Deserialize))]
+    internal class FeatEnabledTrackerPatches_Deserialize
+    {
+        private static void Prefix(string text)
+        {
+            FeatSettingsManager.Instance.Log(text);
+        }
+    }
+
+
+    [HarmonyPatch(typeof(FeatEnabledTracker), nameof(FeatEnabledTracker.Serialize))]
+    internal class FeatEnabledTrackerPatches_Serialize
+    {
+        private static void Postfix(ref string __result)
+        {
+            FeatSettingsManager.Instance.Log(__result);
         }
     }
 }

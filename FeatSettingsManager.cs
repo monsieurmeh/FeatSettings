@@ -46,6 +46,7 @@ namespace FeatSettings
         private FeatSettingsData mData = new FeatSettingsData();
 
         public FeatSettingsData Data { get { return mData; } }
+        public Settings Settings { get { return mSettings; } }
 
         public void Initialize(MelonLogger.Instance logger)
         {

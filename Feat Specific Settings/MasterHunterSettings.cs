@@ -20,10 +20,16 @@ namespace FeatSettings
             mFeat.m_AiSoundRangeScale = Math.Clamp(100 - SoundDecreasePercent, 5, 100);
             mFeat.m_AiSightRangeScale = Math.Clamp(100 - SightDecreasePercent, 5, 100);
             mFeat.m_AiSmellRangeScale = Math.Clamp(100 - SmellDecreasePercent, 5, 100);
+            MaybeUnlock();
+        }
+
+        public void MaybeUnlock()
+        {
             if (mManager.Data.CougarsKilled >= KillCountRequirement)
             {
                 mFeat.Unlock();
-            } else
+            }
+            else
             {
                 mFeat.m_Unlocked = false;
             }
