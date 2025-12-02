@@ -22,6 +22,7 @@ namespace FeatSettings
         }
 
         public override string FeatName { get { return "StraightToTheHeart"; } }
+        public override bool Vanilla { get { return true; } }
 
 
         [Section("Straight To The Heart")]

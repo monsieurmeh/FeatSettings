@@ -19,6 +19,7 @@ namespace FeatSettings
         }
 
         public override string FeatName { get { return "CelestialNavigator"; } }
+        public override bool Vanilla { get { return true; } }
 
 
         [Section("Celestial Navigator")]

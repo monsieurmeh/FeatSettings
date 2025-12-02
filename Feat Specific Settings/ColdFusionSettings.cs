@@ -22,6 +22,7 @@ namespace FeatSettings
         }
 
         public override string FeatName { get { return "ColdFusion"; } }
+        public override bool Vanilla { get { return true; } }
 
 
         [Section("Cold Fusion")]

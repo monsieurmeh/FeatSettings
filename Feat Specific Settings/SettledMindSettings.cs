@@ -19,6 +19,7 @@ namespace FeatSettings
         }
 
         public override string FeatName { get { return "SettledMind"; } }
+        public override bool Vanilla { get { return true; } }
 
         [Section("Settled Mind")]
         [Name("Reading Speed Increase")]

@@ -20,6 +20,7 @@ namespace FeatSettings
         }
 
         public override string FeatName { get { return "ExpertTrapper"; } }
+        public override bool Vanilla { get { return true; } }
 
 
         [Section("Expert Trapper")]

@@ -20,6 +20,8 @@ namespace FeatSettings
         }
 
         public override string FeatName { get { return "EfficientMachine"; } }
+        public override bool Vanilla { get { return true; } }
+
 
         [Section("Efficient Machine")]
         [Name("Days Survived Required")]

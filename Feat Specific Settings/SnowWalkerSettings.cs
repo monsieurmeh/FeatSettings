@@ -20,6 +20,7 @@ namespace FeatSettings
         }
 
         public override string FeatName { get { return "SnowWalker"; } }
+        public override bool Vanilla { get { return true; } }
 
 
         [Section("Snow Walker")]
