@@ -197,6 +197,8 @@ namespace FeatSettings
             return true;
         }
 
+        public bool TryGetFeatSpecificSettingsByName(string featName, out FeatSpecificSettingsBase settings) => mFeatSettingsByNameDict.TryGetValue(featName, out settings);
+
         #region Interop
 
         public bool TryRegisterFeatSettings(Type type, FeatSpecificSettingsBase featSettings)
