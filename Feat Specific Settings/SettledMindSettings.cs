@@ -18,6 +18,8 @@ namespace FeatSettings
             mFeat.m_ReadSpeedBoostPercent = PercentIncrease;
         }
 
+        public override string FeatName { get { return "SettledMind"; } }
+
         [Section("Settled Mind")]
         [Name("Reading Speed Increase")]
         [Slider(5, 100, 20)]

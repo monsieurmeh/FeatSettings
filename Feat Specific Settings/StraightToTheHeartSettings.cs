@@ -21,6 +21,8 @@ namespace FeatSettings
             mFeat.m_EffectiveLengthIncreasePercent = DurationIncrease;
         }
 
+        public override string FeatName { get { return "StraightToTheHeart"; } }
+
 
         [Section("Straight To The Heart")]
         [Name("Consumable Count Requirement")]

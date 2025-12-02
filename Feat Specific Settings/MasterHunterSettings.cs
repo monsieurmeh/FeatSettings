@@ -23,6 +23,9 @@ namespace FeatSettings
             MaybeUnlock();
         }
 
+        public override string FeatName { get { return "MasterHunter"; } }
+
+
         public void MaybeUnlock()
         {
             if (mManager.Data.CougarsKilled >= KillCountRequirement)

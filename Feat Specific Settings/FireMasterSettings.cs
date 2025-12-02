@@ -19,6 +19,8 @@ namespace FeatSettings
             mFeat.m_DefaultFireStartingSkillLevel = StartingLevel;
         }
 
+        public override string FeatName { get { return "FireMaster"; } }
+
 
         [Section("Fire Master")]
         [Name("Number of Fires Required to Unlock")]

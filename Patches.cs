@@ -92,6 +92,8 @@ namespace FeatSettings
             private static void Postfix()
             {
                 uConsole.RegisterCommand("SetCougarKills", new Action(() => SetCougarKills()));
+                uConsole.RegisterCommand("EnableFeat", new Action(() => SetCougarKills()));
+                uConsole.RegisterCommand("DisableFeat", new Action(() => SetCougarKills()));
             }
         }
 
@@ -112,7 +114,25 @@ namespace FeatSettings
             if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
             if (settings is not MasterHunterSettings masterHunterSettings) return;
             masterHunterSettings.MaybeUnlock();
+        }
 
+        private static void EnableFeat()
+        {
+            string command = uConsole.GetString();
+            if (command == null || command.Length == 0)
+            {
+                FeatSettingsManager.Instance.Log($"Enter kill quantity!");
+                return;
+            }
+            if (!int.TryParse(command, out int value))
+            {
+                FeatSettingsManager.Instance.Log($"Enter kill quantity as integer!");
+                return;
+            }
+            FeatSettingsManager.Instance.Data.CougarsKilled = value;
+            if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
+            if (settings is not MasterHunterSettings masterHunterSettings) return;
+            masterHunterSettings.MaybeUnlock();
         }
     }
 

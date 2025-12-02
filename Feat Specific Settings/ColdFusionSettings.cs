@@ -21,6 +21,8 @@ namespace FeatSettings
             mFeat.m_TemperatureCelsiusBenefit = TemperatureCelsiusBenefit;
         }
 
+        public override string FeatName { get { return "ColdFusion"; } }
+
 
         [Section("Cold Fusion")]
         [Name("Days Spent Outside Requirement")]

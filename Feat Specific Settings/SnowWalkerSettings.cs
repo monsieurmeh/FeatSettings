@@ -19,6 +19,8 @@ namespace FeatSettings
             mFeat.m_StaminaRechargeFasterPercent = StartingLevel;
         }
 
+        public override string FeatName { get { return "SnowWalker"; } }
+
 
         [Section("Snow Walker")]
         [Name("Number of Kilometers Required")]

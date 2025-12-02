@@ -20,6 +20,10 @@ namespace FeatSettings
         }
 
 
+
+        public override string FeatName { get { return "BookSmarts"; } }
+
+
         [Section("Book Smarts")]
         [Name("Research Time Requirement")]
         [Slider(25, 2500, 100)]

@@ -19,6 +19,8 @@ namespace FeatSettings
             mFeat.m_CalorieReductionBenefit = CalorieReductionBenefit;
         }
 
+        public override string FeatName { get { return "FreeRunner"; } }
+
 
         [Section("Free Runner")]
         [Name("Sprint Requirement (Kilometers)")]

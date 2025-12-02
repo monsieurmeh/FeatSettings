@@ -19,6 +19,8 @@ namespace FeatSettings
             mFeat.m_ChanceIncreaseToCatchRabbitsPercent = ChanceIncreaseToCatchRabbitsPercent;
         }
 
+        public override string FeatName { get { return "ExpertTrapper"; } }
+
 
         [Section("Expert Trapper")]
         [Name("Rabbits Snared Required")]

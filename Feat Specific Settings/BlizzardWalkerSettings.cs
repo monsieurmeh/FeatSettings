@@ -19,6 +19,8 @@ namespace FeatSettings
             mFeat.m_WalkingSpeedInWindReductionPercent = PenaltyReductionPercent;
         }
 
+        public override string FeatName { get { return "BlizzardWalker"; } }
+
 
         [Section("Blizzard Walker")]
         [Name("Days Outside Required")]

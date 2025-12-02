@@ -47,6 +47,8 @@ namespace FeatSettings
 
 
         public abstract void ApplyAdjustedFeatSettings();
+
+        public abstract string FeatName { get; }
     }
 
 

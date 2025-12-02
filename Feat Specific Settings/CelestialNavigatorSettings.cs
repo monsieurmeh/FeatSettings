@@ -18,6 +18,9 @@ namespace FeatSettings
             mFeat.m_WalkingSpeedBoostPercent = WalkingSpeedBoostPercent;
         }
 
+        public override string FeatName { get { return "CelestialNavigator"; } }
+
+
         [Section("Celestial Navigator")]
         [Name("Walking Speed Increase")]
         [Slider(5, 100, 20)]

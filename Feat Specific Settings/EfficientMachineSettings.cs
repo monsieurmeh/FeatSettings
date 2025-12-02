@@ -19,6 +19,7 @@ namespace FeatSettings
             mFeat.m_NumDaysRequired = NumDaysRequired;
         }
 
+        public override string FeatName { get { return "EfficientMachine"; } }
 
         [Section("Efficient Machine")]
         [Name("Days Survived Required")]

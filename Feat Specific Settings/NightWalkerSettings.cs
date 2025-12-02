@@ -21,6 +21,8 @@ namespace FeatSettings
             mFeat.m_FatigueScaleNightMultiplier = NightFatigueScale * 0.01f;
         }
 
+        public override string FeatName { get { return "NightWalker"; } }
+
 
         [Section("Dark Walker")]
         [Name("Daytime Fatigue Scale Multiplier")]
