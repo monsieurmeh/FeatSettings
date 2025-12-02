@@ -21,7 +21,7 @@ namespace FeatSettings
             mFeat.m_EffectiveLengthIncreasePercent = DurationIncrease;
         }
 
-        public override string FeatName { get { return "StraightToTheHeart"; } }
+        public override string FeatName { get { return "StraightToHeart"; } }
         public override bool Vanilla { get { return true; } }
 
 
