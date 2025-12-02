@@ -91,25 +91,28 @@ namespace FeatSettings
         {
             private static void Postfix()
             {
-                uConsole.RegisterCommand("SetCougarKills", new Action(() =>
-                {
-                    string command = uConsole.GetString();
-                    if (command == null || command.Length == 0)
-                    {
-                        FeatSettingsManager.Instance.Log($"Enter kill quantity!");
-                        return;
-                    }
-                    if (!int.TryParse(command, out int value))
-                    {
-                        FeatSettingsManager.Instance.Log($"Enter kill quantity as integer!");
-                        return;
-                    }
-                    FeatSettingsManager.Instance.Data.CougarsKilled = value;
-                    if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
-                    if (settings is not MasterHunterSettings masterHunterSettings) return;
-                    masterHunterSettings.MaybeUnlock();
-                }));
+                uConsole.RegisterCommand("SetCougarKills", new Action(() => SetCougarKills()));
             }
+        }
+
+        private static void SetCougarKills()
+        {
+            string command = uConsole.GetString();
+            if (command == null || command.Length == 0)
+            {
+                FeatSettingsManager.Instance.Log($"Enter kill quantity!");
+                return;
+            }
+            if (!int.TryParse(command, out int value))
+            {
+                FeatSettingsManager.Instance.Log($"Enter kill quantity as integer!");
+                return;
+            }
+            FeatSettingsManager.Instance.Data.CougarsKilled = value;
+            if (!FeatSettingsManager.Instance.TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
+            if (settings is not MasterHunterSettings masterHunterSettings) return;
+            masterHunterSettings.MaybeUnlock();
+
         }
     }
 
