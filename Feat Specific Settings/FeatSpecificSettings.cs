@@ -50,6 +50,7 @@ namespace FeatSettings
 
         public abstract string FeatName { get; }
         public abstract bool Vanilla { get; }
+        public abstract Feat BaseFeat { get; }
     }
 
 
@@ -58,6 +59,7 @@ namespace FeatSettings
         protected T? mFeat;
 
         public T? Feat { get { return mFeat; } }
+        public override Feat BaseFeat { get { return mFeat; } }
 
         public FeatSpecificSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
