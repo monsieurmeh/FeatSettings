@@ -93,7 +93,7 @@ namespace FeatSettings
             {
                 uConsole.RegisterCommand("SetCougarKills", new Action(() => SetCougarKills()));
                 uConsole.RegisterCommand("EnableFeat", new Action(() => EnableFeat()));
-                uConsole.RegisterCommand("DisableFeat", new Action(() => SetCougarKills()));
+                uConsole.RegisterCommand("DisableFeat", new Action(() => DisableFeat()));
             }
         }
 
@@ -138,6 +138,35 @@ namespace FeatSettings
             {
                 if (FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(settings.BaseFeat.m_FeatType)) return;
                 FeatEnabledTracker.m_FeatsEnabledThisSandbox.Add(settings.BaseFeat.m_FeatType);
+            }
+            else
+            {
+                FeatSettingsManager.Instance.Log($"Non vanilla feats WIP!");
+            }
+        }
+
+        private static void DisableFeat()
+        {
+            string featName = uConsole.GetString();
+            if (featName == null || featName.Length == 0)
+            {
+                FeatSettingsManager.Instance.Log($"Enter feat name!");
+                return;
+            }
+            if (FeatSettingsManager.Instance.TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings))
+            {
+                FeatSettingsManager.Instance.Log($"Invalid feat name!");
+                return;
+            }
+            if (!settings.BaseFeat.IsUnlocked())
+            {
+                FeatSettingsManager.Instance.Log($"You must unlock this feat first!");
+                return;
+            }
+            if (settings.Vanilla)
+            {
+                if (!FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(settings.BaseFeat.m_FeatType)) return;
+                FeatEnabledTracker.m_FeatsEnabledThisSandbox.Remove(settings.BaseFeat.m_FeatType);
             }
             else
             {
