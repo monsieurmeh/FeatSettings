@@ -23,6 +23,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "StraightToHeart"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_StraightToHeart GetFeat() => GameManager.m_FeatsManager.m_Feat_StraightToHeart_Prefab.GetComponent<Feat_StraightToHeart>();
 
 
         [Section("Straight To The Heart")]

@@ -21,6 +21,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "FreeRunner"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_FreeRunner GetFeat() => FeatsManager.m_Feat_FreeRunner;
 
 
         [Section("Free Runner")]

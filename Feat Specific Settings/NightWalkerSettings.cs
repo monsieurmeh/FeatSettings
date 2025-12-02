@@ -23,6 +23,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "NightWalker"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_NightWalker GetFeat() => FeatsManager.m_Feat_NightWalker;
 
 
         [Section("Dark Walker")]

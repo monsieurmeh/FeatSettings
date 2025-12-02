@@ -21,6 +21,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "FireMaster"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_FireMaster GetFeat() => FeatsManager.m_Feat_FireMaster;
 
 
         [Section("Fire Master")]

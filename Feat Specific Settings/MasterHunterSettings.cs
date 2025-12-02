@@ -25,6 +25,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "MasterHunter"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_MasterHunter GetFeat() => FeatsManager.m_Feat_MasterHunter;
 
 
         public void MaybeUnlock()

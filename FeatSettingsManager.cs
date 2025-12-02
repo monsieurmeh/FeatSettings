@@ -76,7 +76,7 @@ namespace FeatSettings
         private void AddFeatSettings(Type type, FeatSpecificSettingsBase settings)
         {
             mFeatSettingsDict.Add(type, settings);
-            mFeatSettingsByNameDict.Add(settings.FeatName, settings);
+            mFeatSettingsByNameDict.Add(settings.FeatName.ToLower(), settings);
         }
 
 
@@ -197,7 +197,88 @@ namespace FeatSettings
             return true;
         }
 
-        public bool TryGetFeatSpecificSettingsByName(string featName, out FeatSpecificSettingsBase settings) => mFeatSettingsByNameDict.TryGetValue(featName, out settings);
+        public bool TryGetFeatSpecificSettingsByName(string featName, out FeatSpecificSettingsBase settings) => mFeatSettingsByNameDict.TryGetValue(featName.ToLower(), out settings);
+
+        #region Console Commands
+
+        public void Console_SetCougarKills()
+        {
+            string command = uConsole.GetString();
+            if (command == null || command.Length == 0)
+            {
+                Log($"Enter kill quantity!");
+                return;
+            }
+            if (!int.TryParse(command, out int value))
+            {
+                Log($"Enter kill quantity as integer!");
+                return;
+            }
+            mData.CougarsKilled = value;
+            if (!TryGetFeatSpecificSettings<Feat_MasterHunter>(out FeatSpecificSettings<Feat_MasterHunter>? settings)) return;
+            if (settings is not MasterHunterSettings masterHunterSettings) return;
+            masterHunterSettings.MaybeUnlock();
+        }
+
+        public void Console_EnableFeat()
+        {
+            string featName = uConsole.GetString();
+            if (featName == null || featName.Length == 0)
+            {
+                Log($"Enter feat name!");
+                return;
+            }
+            if (!TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings))
+            {
+                Log($"Invalid feat name!");
+                return;
+            }
+            if (!settings.BaseFeat.IsUnlocked())
+            {
+                Log($"You must unlock this feat first!");
+                return;
+            }
+            if (settings.Vanilla)
+            {
+                if (FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(settings.BaseFeat.m_FeatType)) return;
+                FeatEnabledTracker.m_FeatsEnabledThisSandbox.Add(settings.BaseFeat.m_FeatType);
+            }
+            else
+            {
+                Log($"Non vanilla feats WIP!");
+            }
+        }
+
+        public void Console_DisableFeat()
+        {
+            string featName = uConsole.GetString();
+            if (featName == null || featName.Length == 0)
+            {
+                Log($"Enter feat name!");
+                return;
+            }
+            if (!TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings))
+            {
+                Log($"Invalid feat name!");
+                return;
+            }
+            if (!settings.BaseFeat.IsUnlocked())
+            {
+                Log($"You must unlock this feat first!");
+                return;
+            }
+            if (settings.Vanilla)
+            {
+                if (!FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(settings.BaseFeat.m_FeatType)) return;
+                FeatEnabledTracker.m_FeatsEnabledThisSandbox.Remove(settings.BaseFeat.m_FeatType);
+            }
+            else
+            {
+                Log($"Non vanilla feats WIP!");
+            }
+        }
+
+        #endregion
 
         #region Interop
 

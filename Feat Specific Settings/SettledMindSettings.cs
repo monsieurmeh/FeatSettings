@@ -20,6 +20,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "SettledMind"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_SettledMind GetFeat() => FeatsManager.m_Feat_SettledMind;
 
         [Section("Settled Mind")]
         [Name("Reading Speed Increase")]

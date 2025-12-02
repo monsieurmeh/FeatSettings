@@ -58,8 +58,8 @@ namespace FeatSettings
     {
         protected T? mFeat;
 
-        public T? Feat { get { return mFeat; } }
-        public override Feat BaseFeat { get { return mFeat; } }
+        public T Feat { get { return mFeat ?? GetFeat(); } }
+        public override Feat BaseFeat { get { return mFeat ?? GetFeat(); } }
 
         public FeatSpecificSettings(FeatSettingsManager manager, string path, string menuName) : base(manager, path, menuName) { }
 
@@ -67,5 +67,7 @@ namespace FeatSettings
         {
             mFeat = tFeat;
         }
+
+        public abstract T GetFeat();
     }
 }

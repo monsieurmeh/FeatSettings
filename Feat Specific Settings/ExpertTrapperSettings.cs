@@ -21,6 +21,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "ExpertTrapper"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_ExpertTrapper GetFeat() => FeatsManager.m_Feat_ExpertTrapper;
 
 
         [Section("Expert Trapper")]

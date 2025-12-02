@@ -21,6 +21,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "SnowWalker"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_SnowWalker GetFeat() => FeatsManager.m_Feat_SnowWalker;
 
 
         [Section("Snow Walker")]

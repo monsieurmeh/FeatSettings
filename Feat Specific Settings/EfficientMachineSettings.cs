@@ -21,6 +21,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "EfficientMachine"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_EfficientMachine GetFeat() => FeatsManager.m_Feat_EfficientMachine;
 
 
         [Section("Efficient Machine")]

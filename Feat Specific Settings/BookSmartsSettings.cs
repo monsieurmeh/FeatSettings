@@ -23,6 +23,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "BookSmarts"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_BookSmarts GetFeat() => FeatsManager.m_Feat_BookSmarts;
 
 
         [Section("Book Smarts")]

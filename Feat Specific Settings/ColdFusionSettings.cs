@@ -23,6 +23,7 @@ namespace FeatSettings
 
         public override string FeatName { get { return "ColdFusion"; } }
         public override bool Vanilla { get { return true; } }
+        public override Feat_ColdFusion GetFeat() => FeatsManager.m_Feat_ColdFusion;
 
 
         [Section("Cold Fusion")]
