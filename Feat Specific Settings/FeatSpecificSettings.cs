@@ -12,23 +12,9 @@ namespace FeatSettings
         public FeatSpecificSettingsBase(FeatSettingsManager manager, string path, string menuName) : base (path)
         {
             mManager = manager;
-            mMenuName = menuName;
-            Initialize();
-        }
-
-
-        protected virtual void Initialize()
-        {
-            try
-            {
-                AddToModSettings(mMenuName);
-                RefreshGUI();
-                ApplyAdjustedFeatSettings();
-            }
-            catch (Exception e)
-            {
-                mManager.Log($"ERROR in FeatSpecificSettingsBase.Initialize: {e}");
-            }
+            mMenuName = menuName; 
+            AddToModSettings(mMenuName);
+            RefreshGUI();
         }
 
 
@@ -66,6 +52,7 @@ namespace FeatSettings
         public virtual void Initialize(T tFeat)
         {
             mFeat = tFeat;
+            ApplyAdjustedFeatSettings();
         }
 
         public abstract T GetFeat();
