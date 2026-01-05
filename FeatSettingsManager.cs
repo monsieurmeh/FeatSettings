@@ -2,7 +2,7 @@
 using Il2Cpp;
 using Il2CppTLD.AI;
 using MelonLoader;
-using MelonLoader.TinyJSON;
+using TLD.TinyJSON;
 using MelonLoader.Utils;
 using System;
 using System.Collections.Generic;
