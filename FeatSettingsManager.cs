@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using ModData;
 
 namespace FeatSettings
 {
@@ -45,6 +46,7 @@ namespace FeatSettings
         private Dictionary<string, FeatSpecificSettingsBase> mFeatSettingsByNameDict = new Dictionary<string, FeatSpecificSettingsBase>();
         private MelonLogger.Instance mLogger;
         private FeatSettingsData mData = new FeatSettingsData();
+        private ModDataManager mModDataManager = new ModDataManager(ModName);
 
         public FeatSettingsData Data { get { return mData; } }
         public Settings Settings { get { return mSettings; } }
@@ -87,13 +89,22 @@ namespace FeatSettings
         }
 
         
-        public void Deserialize(string data)
+        public void LoadModData()
         {
-            Variant variant = JSON.Load(data);
+            string profileData = mModDataManager.LoadFromProfile();
+            if (string.IsNullOrEmpty(profileData))
+                return;
+            Variant variant = JSON.Load(profileData);
             JSON.Populate(variant, mData);
         }
 
-        public string Serialize() => JSON.Dump(mData, EncodeOptions.NoTypeHints);
+        public void SaveModData()
+        {
+            string profileData = JSON.Dump(mData, EncodeOptions.NoTypeHints);
+            if (string.IsNullOrEmpty(profileData))
+                return;
+            mModDataManager.SaveToProfile(profileData);
+        }
 
 
         public void Log(string msg)

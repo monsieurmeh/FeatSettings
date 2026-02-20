@@ -20,9 +20,7 @@ namespace FeatSettings
         {
             private static void Prefix(string text, FeatsManager __instance)
             {
-                if (!Utils.TryGetField(text, "FeatSettingsData", out string data)) return;
-                MelonLogger.Msg(data);
-                FeatSettingsManager.Instance.Deserialize(data);
+                FeatSettingsManager.Instance.LoadModData();
             }
         }
 
@@ -31,7 +29,7 @@ namespace FeatSettings
         {
             private static void Postfix(ref string __result)
             {
-                __result = Utils.AddOrUpdateField(__result, "FeatSettingsData", FeatSettingsManager.Instance.Serialize());
+                FeatSettingsManager.Instance.SaveModData();
             }
         }
 
