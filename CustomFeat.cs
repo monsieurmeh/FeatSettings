@@ -17,12 +17,14 @@ namespace FeatSettings
         public abstract FeatType BadgeFeat { get; }
         public virtual Texture2D? UnlockedBadgeTexture { get { return null; } }
         public virtual Texture2D? LockedBadgeTexture { get { return null; } }
+        public virtual CustomFeatSettings? Settings { get { return null; } }
 
         public CustomFeat? Feat { get; internal set; }
         public float Progress { get { return FeatSettingsManager.Instance.GetCustomFeatProgress(this); } set { FeatSettingsManager.Instance.SetCustomFeatProgress(this, value); } }
         public bool IsUnlockedAndEnabled { get { return Feat != null && Feat.IsUnlockedAndEnabled(); } }
 
         public virtual void OnStatIncremented(StatID statID, float increment) { }
+        public virtual void ApplySettings() { }
     }
 
 

@@ -332,6 +332,18 @@ namespace FeatSettings
             }
         }
 
+        public void ApplyCustomFeatSettings(CustomFeatSettings settings)
+        {
+            foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
+            {
+                if (definition.Settings == settings)
+                {
+                    definition.ApplySettings();
+                }
+            }
+            AddCustomFeatLocalization();
+        }
+
         public void OnStatIncremented(StatID statID, float increment)
         {
             foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
@@ -435,6 +447,12 @@ namespace FeatSettings
                 return false;
             }
             Log($"FeatSettingsManager.TryRegisterCustomFeat: Registered custom feat {definition.Name} as feat type {(int)definition.FeatType}!");
+            if (definition.Settings != null)
+            {
+                definition.Settings.AddToModSettings(ModName);
+                definition.Settings.RefreshGUI();
+                definition.ApplySettings();
+            }
             return true;
         }
 
