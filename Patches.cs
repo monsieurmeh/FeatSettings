@@ -58,7 +58,8 @@ namespace FeatSettings
         {
             private static bool Prefix(UITexture targetTexture, AssetReferenceTexture2D spriteReference)
             {
-                if (!FeatSettingsManager.Instance.TryGetCustomBadgeTexture(spriteReference, out Texture2D? texture)) return true;
+                Texture2D? texture = FeatSettingsManager.Instance.GetCustomBadgeTexture(spriteReference);
+                if (texture == null) return true;
                 targetTexture.mainTexture = texture;
                 return false;
             }
@@ -134,7 +135,8 @@ namespace FeatSettings
 
             private static void Postfix(AssetReferenceTexture2D textureReference)
             {
-                if (!FeatSettingsManager.Instance.TryGetCustomBadgeTexture(textureReference, out Texture2D? texture)) return;
+                Texture2D? texture = FeatSettingsManager.Instance.GetCustomBadgeTexture(textureReference);
+                if (texture == null) return;
                 Panel_HUD hud = InterfaceManager.GetPanel<Panel_HUD>();
                 if (hud == null) return;
                 hud.m_FeatUnlockedBadgeIcon.mainTexture = texture;
@@ -149,6 +151,8 @@ namespace FeatSettings
                 uConsole.RegisterCommand("SetCougarKills", new Action(() => FeatSettingsManager.Instance.Console_SetCougarKills()));
                 uConsole.RegisterCommand("EnableFeat", new Action(() => FeatSettingsManager.Instance.Console_EnableFeat()));
                 uConsole.RegisterCommand("DisableFeat", new Action(() => FeatSettingsManager.Instance.Console_DisableFeat()));
+                uConsole.RegisterCommand("UnlockFeat", new Action(() => FeatSettingsManager.Instance.Console_UnlockFeat()));
+                uConsole.RegisterCommand("LockFeat", new Action(() => FeatSettingsManager.Instance.Console_LockFeat()));
             }
         }
     }

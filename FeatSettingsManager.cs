@@ -6,7 +6,6 @@ using TLD.TinyJSON;
 using MelonLoader.Utils;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -330,17 +329,21 @@ namespace FeatSettings
             return reference;
         }
 
-        public bool TryGetCustomBadgeTexture(AssetReferenceTexture2D? reference, [NotNullWhen(true)] out Texture2D? texture)
+        public Texture2D? GetCustomBadgeTexture(AssetReferenceTexture2D? reference)
         {
-            texture = null;
-            return reference != null && mCustomBadgeTextures.TryGetValue(reference.Pointer, out texture);
+            if (reference == null || !mCustomBadgeTextures.TryGetValue(reference.Pointer, out Texture2D? texture))
+            {
+                return null;
+            }
+            return texture;
         }
 
         public void ApplyCustomBadgeTextures(Il2CppSystem.Collections.Generic.List<BadgeInfo> badges, ScrollList scrollList)
         {
             for (int i = 0, iMax = Math.Min(badges.Count, scrollList.m_ScrollObjects.Count); i < iMax; i++)
             {
-                if (!TryGetCustomBadgeTexture(badges[i].m_Sprite, out Texture2D? texture)) continue;
+                Texture2D? texture = GetCustomBadgeTexture(badges[i].m_Sprite);
+                if (texture == null) continue;
                 UITexture uiTexture = scrollList.m_ScrollObjects[i].GetComponentInChildren<UITexture>(true);
                 if (uiTexture == null) continue;
                 uiTexture.mainTexture = texture;
@@ -430,33 +433,95 @@ namespace FeatSettings
 
         public void Console_EnableFeat()
         {
-            if (!TryGetConsoleFeat(out Feat? feat)) return;
+            Feat? feat = GetConsoleFeat();
+            if (feat == null) return;
             if (FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(feat.m_FeatType)) return;
             FeatEnabledTracker.m_FeatsEnabledThisSandbox.Add(feat.m_FeatType);
         }
 
         public void Console_DisableFeat()
         {
-            if (!TryGetConsoleFeat(out Feat? feat)) return;
+            Feat? feat = GetConsoleFeat();
+            if (feat == null) return;
             if (!FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(feat.m_FeatType)) return;
             FeatEnabledTracker.m_FeatsEnabledThisSandbox.Remove(feat.m_FeatType);
         }
 
-        private bool TryGetConsoleFeat([NotNullWhen(true)] out Feat? feat)
+        public void Console_UnlockFeat()
         {
-            feat = null;
+            Feat? feat = GetConsoleFeatAnyState(out CustomFeatDefinition? definition);
+            if (feat == null) return;
+            if (definition != null)
+            {
+                definition.Progress = 1.0f;
+            }
+            else
+            {
+                feat.SetNormalizedProgress(1.0f);
+            }
+            Log($"{feat.m_FeatType} unlocked");
+        }
+
+        public void Console_LockFeat()
+        {
+            Feat? feat = GetConsoleFeatAnyState(out CustomFeatDefinition? definition);
+            if (feat == null) return;
+            if (FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(feat.m_FeatType))
+            {
+                FeatEnabledTracker.m_FeatsEnabledThisSandbox.Remove(feat.m_FeatType);
+            }
+            if (definition != null)
+            {
+                definition.Progress = 0.0f;
+            }
+            else
+            {
+                feat.SetNormalizedProgress(0.0f);
+            }
+            Log($"{feat.m_FeatType} locked");
+        }
+
+        private Feat? GetConsoleFeatAnyState(out CustomFeatDefinition? definition)
+        {
+            Feat? feat = null;
+            string featName = uConsole.GetString();
+            if (featName == null || featName.Length == 0)
+            {
+                definition = null;
+                Log($"Enter feat name!");
+                return null;
+            }
+            definition = mCustomFeatDefinitions.Values.FirstOrDefault(customDefinition => customDefinition.Name.ToLower() == featName.ToLower());
+            if (definition != null)
+            {
+                feat = definition.Feat;
+            }
+            else if (TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings) && settings.Vanilla)
+            {
+                feat = settings.BaseFeat;
+            }
+            if (feat == null)
+            {
+                Log($"Invalid feat name!");
+            }
+            return feat;
+        }
+
+        private Feat? GetConsoleFeat()
+        {
+            Feat? feat = null;
             string featName = uConsole.GetString();
             if (featName == null || featName.Length == 0)
             {
                 Log($"Enter feat name!");
-                return false;
+                return null;
             }
             if (TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings))
             {
                 if (!settings.Vanilla)
                 {
                     Log($"Non vanilla feats WIP!");
-                    return false;
+                    return null;
                 }
                 feat = settings.BaseFeat;
             }
@@ -467,14 +532,14 @@ namespace FeatSettings
             if (feat == null)
             {
                 Log($"Invalid feat name!");
-                return false;
+                return null;
             }
             if (!feat.IsUnlocked())
             {
                 Log($"You must unlock this feat first!");
-                return false;
+                return null;
             }
-            return true;
+            return feat;
         }
 
         #endregion
