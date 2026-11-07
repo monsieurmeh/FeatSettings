@@ -59,6 +59,9 @@ namespace FeatSettings
         private Vector3 mActiveFeatSlotPosition;
         private Vector3 mActiveFeatSlotScale;
         private float mActiveFeatSlotSpacing;
+        private IntPtr mLaidOutPanel;
+        private int mLaidOutCount = -1;
+        private int mLaidOutSlots = -1;
         private List<LocalizedString> mCustomFeatLocalizedStrings = new List<LocalizedString>();
         private List<AssetReferenceTexture2D> mCustomBadgeReferences = new List<AssetReferenceTexture2D>();
         private Dictionary<IntPtr, Texture2D> mCustomBadgeTextures = new Dictionary<IntPtr, Texture2D>();
@@ -275,6 +278,13 @@ namespace FeatSettings
                 }
                 panel.m_ActiveFeatObjects = slots;
             }
+            if (mLaidOutPanel == panel.Pointer && mLaidOutCount == count && mLaidOutSlots == panel.m_ActiveFeatObjects.Count)
+            {
+                return;
+            }
+            mLaidOutPanel = panel.Pointer;
+            mLaidOutCount = count;
+            mLaidOutSlots = panel.m_ActiveFeatObjects.Count;
             bool expanded = count > mActiveFeatSlotCount;
             float center = mActiveFeatSlotPosition.x + (mActiveFeatSlotCount - 1) * mActiveFeatSlotSpacing * 0.5f;
             float spacing = expanded ? Math.Min(mActiveFeatSlotSpacing, mActiveFeatSlotSpacing * MaxActiveFeatSlotsPerRow / count) : mActiveFeatSlotSpacing;
