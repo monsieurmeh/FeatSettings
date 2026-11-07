@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using ModData;
+using Il2CppInterop.Runtime.Injection;
 
 namespace FeatSettings
 {
@@ -45,6 +46,7 @@ namespace FeatSettings
         private Dictionary<Type, FeatSpecificSettingsBase> mFeatSettingsDict = new Dictionary<Type, FeatSpecificSettingsBase>();
         private Dictionary<string, FeatSpecificSettingsBase> mFeatSettingsByNameDict = new Dictionary<string, FeatSpecificSettingsBase>();
         private Dictionary<FeatType, CustomFeatDefinition> mCustomFeatDefinitions = new Dictionary<FeatType, CustomFeatDefinition>();
+        private List<LocalizedString> mCustomFeatLocalizedStrings = new List<LocalizedString>();
         private MelonLogger.Instance mLogger;
         private FeatSettingsData mData = new FeatSettingsData();
         private ModDataManager mModDataManager = new ModDataManager(ModName);
@@ -55,6 +57,7 @@ namespace FeatSettings
         public void Initialize(MelonLogger.Instance logger)
         {
             mLogger = logger;
+            ClassInjector.RegisterTypeInIl2Cpp<CustomFeat>();
             InitializeSystems();
             InitializeCustomSettings();
         }
@@ -212,6 +215,70 @@ namespace FeatSettings
         public bool TryGetFeatSpecificSettingsByName(string featName, out FeatSpecificSettingsBase settings) => mFeatSettingsByNameDict.TryGetValue(featName.ToLower(), out settings);
 
         #region Custom Feats
+
+        public void InstantiateCustomFeats(FeatsManager featsManager)
+        {
+            foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
+            {
+                if (definition.Feat != null)
+                {
+                    continue;
+                }
+                Feat badgeFeat = featsManager.GetFeat(definition.BadgeFeat);
+                GameObject featObject = new GameObject($"Feat_{definition.Name}");
+                featObject.hideFlags = HideFlags.HideInHierarchy;
+                UnityEngine.Object.DontDestroyOnLoad(featObject);
+                CustomFeat feat = featObject.AddComponent<CustomFeat>();
+                feat.m_FeatType = definition.FeatType;
+                feat.m_LocalizedDisplayName = NewLocalizedString(definition, nameof(CustomFeatDefinition.DisplayName));
+                feat.m_LocalizedDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.Description));
+                feat.m_LocalizedShortDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.ShortDescription));
+                feat.m_LocalizedBonusDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.BonusDescription));
+                feat.m_UnlockedBadge = badgeFeat.m_UnlockedBadge;
+                feat.m_LockedBadge = badgeFeat.m_LockedBadge;
+                feat.m_ActionsRadial = badgeFeat.m_ActionsRadial;
+                FeatsManager.m_Feats.Add(feat);
+                definition.Feat = feat;
+                Log($"Added custom feat {definition.Name} as feat type {(int)definition.FeatType}");
+            }
+            AddCustomFeatLocalization();
+        }
+
+        private static string LocalizationID(CustomFeatDefinition definition, string field) => $"{ModName}_{definition.Name}_{field}";
+
+        private LocalizedString NewLocalizedString(CustomFeatDefinition definition, string field)
+        {
+            LocalizedString localizedString = new LocalizedString();
+            localizedString.m_LocalizationID = LocalizationID(definition, field);
+            mCustomFeatLocalizedStrings.Add(localizedString);
+            return localizedString;
+        }
+
+        public void AddCustomFeatLocalization()
+        {
+            StringTable stringTable = Localization.s_CurrentLanguageStringTable;
+            if (stringTable == null)
+            {
+                return;
+            }
+            int languageCount = stringTable.GetLanguages().Count;
+            foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
+            {
+                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.DisplayName)), definition.DisplayName);
+                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.Description)), definition.Description);
+                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.ShortDescription)), definition.ShortDescription);
+                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.BonusDescription)), definition.BonusDescription);
+            }
+        }
+
+        private static void AddLocalization(StringTable stringTable, int languageCount, string localizationID, string text)
+        {
+            StringTableData.Entry entry = stringTable.GetEntryFromKey(localizationID) ?? stringTable.AddEntryForKey(localizationID);
+            for (int i = 0; i < languageCount; i++)
+            {
+                entry.m_Languages[i] = text;
+            }
+        }
 
         public bool TryGetCustomFeatDefinition(FeatType featType, out CustomFeatDefinition definition) => mCustomFeatDefinitions.TryGetValue(featType, out definition);
 

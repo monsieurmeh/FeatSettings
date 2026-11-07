@@ -14,5 +14,13 @@ namespace FeatSettings
         public abstract string ShortDescription { get; }
         public abstract string BonusDescription { get; }
         public abstract FeatType BadgeFeat { get; }
+
+        public CustomFeat? Feat { get; internal set; }
+    }
+
+
+    public class CustomFeat : Feat
+    {
+        public CustomFeat(IntPtr ptr) : base(ptr) { }
     }
 }

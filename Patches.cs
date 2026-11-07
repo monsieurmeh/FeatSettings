@@ -33,6 +33,35 @@ namespace FeatSettings
             }
         }
 
+        [HarmonyPatch(typeof(FeatsManager), nameof(FeatsManager.Awake))]
+        private static class FeatsManagerPatches_Awake
+        {
+            private static void Postfix(FeatsManager __instance)
+            {
+                FeatSettingsManager.Instance.InstantiateCustomFeats(__instance);
+            }
+        }
+
+        [HarmonyPatch(typeof(FeatsManager), nameof(FeatsManager.GetFeat))]
+        private static class FeatsManagerPatches_GetFeat
+        {
+            private static void Postfix(FeatType featType, ref Feat __result)
+            {
+                if (__result != null) return;
+                if (!FeatSettingsManager.Instance.TryGetCustomFeatDefinition(featType, out CustomFeatDefinition? definition)) return;
+                __result = definition.Feat;
+            }
+        }
+
+        [HarmonyPatch(typeof(Localization), nameof(Localization.LoadStringTableForLanguage))]
+        private static class LocalizationPatches_LoadStringTableForLanguage
+        {
+            private static void Postfix()
+            {
+                FeatSettingsManager.Instance.AddCustomFeatLocalization();
+            }
+        }
+
         [HarmonyPatch(typeof(FeatsManager), nameof(FeatsManager.InstantiateFeatPrefab), new Type[] { typeof(GameObject) })]
         private static class FeatsManagerPatches_InstantiateFeatPrefab
         {
