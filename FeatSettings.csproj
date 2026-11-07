@@ -29,6 +29,9 @@
     </Reference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Localization.json" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="DLLs\**" />
     <EmbeddedResource Remove="DLLs\**" />
     <None Remove="DLLs\**" />
@@ -40,6 +43,9 @@
     </Reference>
     <Reference Include="ModData">
       <HintPath>$(ModsPath)\ModData.dll</HintPath>
+    </Reference>
+    <Reference Include="ModComponent">
+      <HintPath>$(ModsPath)\ModComponent.dll</HintPath>
     </Reference>
   </ItemGroup>
 

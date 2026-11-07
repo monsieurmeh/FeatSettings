@@ -26,16 +26,16 @@ namespace FeatSettings
         public override Feat_ColdFusion GetFeat() => FeatsManager.m_Feat_ColdFusion;
 
 
-        [Section("Cold Fusion")]
-        [Name("Days Spent Outside Requirement")]
+        [Section("GAMEPLAY_FeatColdFusion", Localize = true)]
+        [Name("FEATSETTINGS_ColdFusion_NumDaysRequired_Name", Localize = true)]
         [Slider(10, 1000, 100)]
-        [Description("Sets required number of days spend outside to unlock Cold Fusion.\nDefault: 100")]
+        [Description("FEATSETTINGS_ColdFusion_NumDaysRequired_Desc")]
         public int NumDaysRequired = 100;
 
 
-        [Name("Temperature Benefit (Celsius)")]
+        [Name("FEATSETTINGS_ColdFusion_TemperatureCelsiusBenefit_Name", Localize = true)]
         [Slider(1, 10, 10)]
-        [Description("Sets the player temperature increase in degrees Celsius while using Cold Fusion.\nDefault: 2")]
+        [Description("FEATSETTINGS_ColdFusion_TemperatureCelsiusBenefit_Desc")]
         public int TemperatureCelsiusBenefit = 2;
     }
 }

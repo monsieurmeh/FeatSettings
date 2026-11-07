@@ -43,28 +43,28 @@ namespace FeatSettings
 
 
 
-        [Section("Big Cat Killer")]
-        [Name("Kill Count Requirement")]
+        [Section("GAMEPLAY_Feat_MasterHunter", Localize = true)]
+        [Name("FEATSETTINGS_MasterHunter_KillCountRequirement_Name", Localize = true)]
         [Slider(3, 30, 10)]
-        [Description("Sets required of Cougar kills to unlock Big Cat Killer.\nMod default with current vanilla cougar: 9\nVanilla default from cougar 1.0: 3")]
+        [Description("FEATSETTINGS_MasterHunter_KillCountRequirement_Desc")]
         public int KillCountRequirement = 9;
 
 
-        [Name("Sound Perception Decrease Percent")]
+        [Name("FEATSETTINGS_MasterHunter_SoundDecreasePercent_Name", Localize = true)]
         [Slider(0, 95, 20)]
-        [Description("Sets AI sound perception decrease percent while using Big Cat Killer.\nDefault: 50%")]
+        [Description("FEATSETTINGS_MasterHunter_SoundDecreasePercent_Desc")]
         public int SoundDecreasePercent = 50;
 
 
-        [Name("Sight Perception Decrease Percent")]
+        [Name("FEATSETTINGS_MasterHunter_SightDecreasePercent_Name", Localize = true)]
         [Slider(0, 95, 20)]
-        [Description("Sets AI sight perception decrease percent while using Big Cat Killer.\nDefault: 50%")]
+        [Description("FEATSETTINGS_MasterHunter_SightDecreasePercent_Desc")]
         public int SightDecreasePercent = 50;
 
 
-        [Name("Smell Perception Decrease Percent")]
+        [Name("FEATSETTINGS_MasterHunter_SmellDecreasePercent_Name", Localize = true)]
         [Slider(0, 95, 20)]
-        [Description("Sets AI smell perception decrease percent while using Big Cat Killer.\nDefault: 50%")]
+        [Description("FEATSETTINGS_MasterHunter_SmellDecreasePercent_Desc")]
         public int SmellDecreasePercent = 50;
     }
 }

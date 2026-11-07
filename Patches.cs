@@ -53,15 +53,6 @@ namespace FeatSettings
             }
         }
 
-        [HarmonyPatch(typeof(Localization), nameof(Localization.LoadStringTableForLanguage))]
-        private static class LocalizationPatches_LoadStringTableForLanguage
-        {
-            private static void Postfix()
-            {
-                FeatSettingsManager.Instance.AddCustomFeatLocalization();
-            }
-        }
-
         [HarmonyPatch(typeof(Panel_MainMenu), nameof(Panel_MainMenu.LoadFeatureIcon))]
         private static class Panel_MainMenuPatches_LoadFeatureIcon
         {

@@ -14,28 +14,28 @@ namespace FeatSettings
             Initialize();
         }
 
-        [Section("Feat Count")]
-        [Name("Pilgrim Feat Count")]
+        [Section("FEATSETTINGS_FeatCount_Section", Localize = true)]
+        [Name("FEATSETTINGS_FeatCount_PilgrimFeatCount_Name", Localize = true)]
         [Slider(1, 6, 6)]
         public int PilgrimFeatCount = 5;
 
-        [Name("Voyager Feat Count")]
+        [Name("FEATSETTINGS_FeatCount_VoyagerFeatCount_Name", Localize = true)]
         [Slider(1, 6, 6)]
         public int VoyagerFeatCount = 4;
 
-        [Name("Stalker Feat Count")]
+        [Name("FEATSETTINGS_FeatCount_StalkerFeatCount_Name", Localize = true)]
         [Slider(1, 6, 6)]
         public int StalkerFeatCount = 3;
 
-        [Name("Interloper Feat Count")]
+        [Name("FEATSETTINGS_FeatCount_InterloperFeatCount_Name", Localize = true)]
         [Slider(1, 6, 6)]
         public int InterloperFeatCount = 2;
 
-        [Name("Misery Feat Count")]
+        [Name("FEATSETTINGS_FeatCount_MiseryFeatCount_Name", Localize = true)]
         [Slider(0, 6, 7)]
         public int MiseryFeatCount = 0;
 
-        [Name("Custom Feat Count")]
+        [Name("FEATSETTINGS_FeatCount_CustomFeatCount_Name", Localize = true)]
         [Slider(1, 6, 6)]
         public int CustomFeatCount = 5;
 

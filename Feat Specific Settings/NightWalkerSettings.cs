@@ -26,16 +26,16 @@ namespace FeatSettings
         public override Feat_NightWalker GetFeat() => FeatsManager.m_Feat_NightWalker;
 
 
-        [Section("Dark Walker")]
-        [Name("Daytime Fatigue Scale Multiplier")]
+        [Section("GAMEPLAY_Feat_NightWalker", Localize = true)]
+        [Name("FEATSETTINGS_NightWalker_DayFatigueScale_Name", Localize = true)]
         [Slider(10, 1000, 100)]
-        [Description("Sets the daytime fatigue scale multiplier when using Dark Walker.\nDefault: 200%")]
+        [Description("FEATSETTINGS_NightWalker_DayFatigueScale_Desc")]
         public int DayFatigueScale = 250;
 
 
-        [Name("Nighttime Fatigue Scale Multiplier")]
+        [Name("FEATSETTINGS_NightWalker_NightFatigueScale_Name", Localize = true)]
         [Slider(10, 1000, 100)]
-        [Description("Sets the nighttime fatigue scale multiplier when using Dark Walker.\nDefault: 50%")]
+        [Description("FEATSETTINGS_NightWalker_NightFatigueScale_Desc")]
         public int NightFatigueScale = 50;
     }
 }

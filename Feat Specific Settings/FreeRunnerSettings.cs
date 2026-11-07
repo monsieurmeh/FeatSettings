@@ -24,16 +24,16 @@ namespace FeatSettings
         public override Feat_FreeRunner GetFeat() => FeatsManager.m_Feat_FreeRunner;
 
 
-        [Section("Free Runner")]
-        [Name("Sprint Requirement (Kilometers)")]
+        [Section("GAMEPLAY_Feat_FreeRunner", Localize = true)]
+        [Name("FEATSETTINGS_FreeRunner_NumKilometersRequired_Name", Localize = true)]
         [Slider(5, 500, 100)]
-        [Description("Sets required number of kilometers sprinted to unlock Free Runner.\nDefault: 50")]
+        [Description("FEATSETTINGS_FreeRunner_NumKilometersRequired_Desc")]
         public int NumKilometersRequired = 50;
 
 
-        [Name("Sprinting Calorie Reduction Benefit")]
+        [Name("FEATSETTINGS_FreeRunner_CalorieReductionBenefit_Name", Localize = true)]
         [Slider(1, 100, 100)]
-        [Description("Sets the percent decrease to calorie consumption while spriting using Free Runner.\nDefault: 25")]
+        [Description("FEATSETTINGS_FreeRunner_CalorieReductionBenefit_Desc")]
         public int CalorieReductionBenefit = 25;
     }
 }

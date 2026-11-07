@@ -24,16 +24,16 @@ namespace FeatSettings
         public override Feat_ExpertTrapper GetFeat() => FeatsManager.m_Feat_ExpertTrapper;
 
 
-        [Section("Expert Trapper")]
-        [Name("Rabbits Snared Required")]
+        [Section("GAMEPLAY_FeatExpertTrapper", Localize = true)]
+        [Name("FEATSETTINGS_ExpertTrapper_NumSnaredRabbitsRequired_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets required number of rabbits snared to unlock Expert Trapper.\nDefault: 20")]
+        [Description("FEATSETTINGS_ExpertTrapper_NumSnaredRabbitsRequired_Desc")]
         public int NumSnaredRabbitsRequired = 20;
 
 
-        [Name("Snare Success Increase Benefit")]
+        [Name("FEATSETTINGS_ExpertTrapper_ChanceIncreaseToCatchRabbitsPercent_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets the percent increase to snare success chance while using Expert Trapper.\nDefault: 25%")]
+        [Description("FEATSETTINGS_ExpertTrapper_ChanceIncreaseToCatchRabbitsPercent_Desc")]
         public int ChanceIncreaseToCatchRabbitsPercent = 25;
     }
 }

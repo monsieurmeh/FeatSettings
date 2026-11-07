@@ -24,16 +24,16 @@ namespace FeatSettings
         public override Feat_BlizzardWalker GetFeat() => FeatsManager.m_Feat_BlizzardWalker;
 
 
-        [Section("Blizzard Walker")]
-        [Name("Days Outside Required")]
+        [Section("GAMEPLAY_FeatBlizzardWalker", Localize = true)]
+        [Name("FEATSETTINGS_BlizzardWalker_DaysRequired_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets required number of days spent walking through blizzards to unlock BLizzard Walker.\nDefault: 20")]
+        [Description("FEATSETTINGS_BlizzardWalker_DaysRequired_Desc")]
         public int DaysRequired = 20;
 
 
-        [Name("Wind Speed Movement Penalty Reduction")]
+        [Name("FEATSETTINGS_BlizzardWalker_PenaltyReductionPercent_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets the percent decrease to movement speed penalty in high winds while using Blizzard Walker.\nDefault: 25%")]
+        [Description("FEATSETTINGS_BlizzardWalker_PenaltyReductionPercent_Desc")]
         public int PenaltyReductionPercent = 25;
     }
 }

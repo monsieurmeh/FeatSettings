@@ -24,16 +24,16 @@ namespace FeatSettings
         public override Feat_EfficientMachine GetFeat() => FeatsManager.m_Feat_EfficientMachine;
 
 
-        [Section("Efficient Machine")]
-        [Name("Days Survived Required")]
+        [Section("GAMEPLAY_FeatEfficientMachine", Localize = true)]
+        [Name("FEATSETTINGS_EfficientMachine_NumDaysRequired_Name", Localize = true)]
         [Slider(10, 1000, 100)]
-        [Description("Sets required number of days survived to unlock Efficient Machine.\nDefault: 500")]
+        [Description("FEATSETTINGS_EfficientMachine_NumDaysRequired_Desc")]
         public int NumDaysRequired = 500;
 
 
-        [Name("Calorie Reduction Benefit")]
+        [Name("FEATSETTINGS_EfficientMachine_CalorieReductionBenefit_Name", Localize = true)]
         [Slider(1, 100, 100)]
-        [Description("Sets the percent decrease in calorie usage while using Efficient Machine.\nDefault: 10%")]
+        [Description("FEATSETTINGS_EfficientMachine_CalorieReductionBenefit_Desc")]
         public int CalorieReductionBenefit = 10;
     }
 }

@@ -24,16 +24,16 @@ namespace FeatSettings
         public override Feat_FireMaster GetFeat() => FeatsManager.m_Feat_FireMaster;
 
 
-        [Section("Fire Master")]
-        [Name("Number of Fires Required to Unlock")]
+        [Section("GAMEPLAY_Feat_FireMaster", Localize = true)]
+        [Name("FEATSETTINGS_FireMaster_FiresRequired_Name", Localize = true)]
         [Slider(100, 10000, 100)]
-        [Description("Sets required number of fires started to unlock Fire Master.\nDefault: 1000")]
+        [Description("FEATSETTINGS_FireMaster_FiresRequired_Desc")]
         public int FiresRequired = 1000;
 
 
-        [Name("Fire Starting Skill Level Increase")]
+        [Name("FEATSETTINGS_FireMaster_StartingLevel_Name", Localize = true)]
         [Slider(2, 5)]
-        [Description("Sets the starting level of Fire Starting skill when using Fire Master in a new game.\nDefault: 3")]
+        [Description("FEATSETTINGS_FireMaster_StartingLevel_Desc")]
         public int StartingLevel = 3;
     }
 }

@@ -26,16 +26,16 @@ namespace FeatSettings
         public override Feat_BookSmarts GetFeat() => FeatsManager.m_Feat_BookSmarts;
 
 
-        [Section("Book Smarts")]
-        [Name("Research Time Requirement")]
+        [Section("GAMEPLAY_FeatBookSmarts", Localize = true)]
+        [Name("FEATSETTINGS_BookSmarts_HoursRequired_Name", Localize = true)]
         [Slider(25, 2500, 100)]
-        [Description("Sets required number of research hours spent to unlock Book Smarts.\nDefault: 250")]
+        [Description("FEATSETTINGS_BookSmarts_HoursRequired_Desc")]
         public int HoursRequired = 1000;
 
 
-        [Name("Research Benefit Increase")]
+        [Name("FEATSETTINGS_BookSmarts_PercentIncrease_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets the percent increase to skill gain when reading while using Book Smarts.\nDefault: 10%")]
+        [Description("FEATSETTINGS_BookSmarts_PercentIncrease_Desc")]
         public int PercentIncrease = 10;
     }
 }

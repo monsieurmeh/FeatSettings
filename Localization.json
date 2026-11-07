@@ -1,0 +1,179 @@
+{
+  "FEATSETTINGS_FeatCount_Section": {
+    "English": "Feat Count"
+  },
+  "FEATSETTINGS_FeatCount_PilgrimFeatCount_Name": {
+    "English": "Pilgrim Feat Count"
+  },
+  "FEATSETTINGS_FeatCount_VoyagerFeatCount_Name": {
+    "English": "Voyager Feat Count"
+  },
+  "FEATSETTINGS_FeatCount_StalkerFeatCount_Name": {
+    "English": "Stalker Feat Count"
+  },
+  "FEATSETTINGS_FeatCount_InterloperFeatCount_Name": {
+    "English": "Interloper Feat Count"
+  },
+  "FEATSETTINGS_FeatCount_MiseryFeatCount_Name": {
+    "English": "Misery Feat Count"
+  },
+  "FEATSETTINGS_FeatCount_CustomFeatCount_Name": {
+    "English": "Custom Feat Count"
+  },
+  "FEATSETTINGS_BlizzardWalker_DaysRequired_Name": {
+    "English": "Days Outside Required"
+  },
+  "FEATSETTINGS_BlizzardWalker_DaysRequired_Desc": {
+    "English": "Sets required number of days spent walking through blizzards to unlock BLizzard Walker.\nDefault: 20"
+  },
+  "FEATSETTINGS_BlizzardWalker_PenaltyReductionPercent_Name": {
+    "English": "Wind Speed Movement Penalty Reduction"
+  },
+  "FEATSETTINGS_BlizzardWalker_PenaltyReductionPercent_Desc": {
+    "English": "Sets the percent decrease to movement speed penalty in high winds while using Blizzard Walker.\nDefault: 25%"
+  },
+  "FEATSETTINGS_BookSmarts_HoursRequired_Name": {
+    "English": "Research Time Requirement"
+  },
+  "FEATSETTINGS_BookSmarts_HoursRequired_Desc": {
+    "English": "Sets required number of research hours spent to unlock Book Smarts.\nDefault: 250"
+  },
+  "FEATSETTINGS_BookSmarts_PercentIncrease_Name": {
+    "English": "Research Benefit Increase"
+  },
+  "FEATSETTINGS_BookSmarts_PercentIncrease_Desc": {
+    "English": "Sets the percent increase to skill gain when reading while using Book Smarts.\nDefault: 10%"
+  },
+  "FEATSETTINGS_CelestialNavigator_WalkingSpeedBoostPercent_Name": {
+    "English": "Walking Speed Increase"
+  },
+  "FEATSETTINGS_CelestialNavigator_WalkingSpeedBoostPercent_Desc": {
+    "English": "Sets the percent increase to walking speed during auroras or on clear nights while using Celestial Navigator.\nDefault: 10%"
+  },
+  "FEATSETTINGS_ColdFusion_NumDaysRequired_Name": {
+    "English": "Days Spent Outside Requirement"
+  },
+  "FEATSETTINGS_ColdFusion_NumDaysRequired_Desc": {
+    "English": "Sets required number of days spend outside to unlock Cold Fusion.\nDefault: 100"
+  },
+  "FEATSETTINGS_ColdFusion_TemperatureCelsiusBenefit_Name": {
+    "English": "Temperature Benefit (Celsius)"
+  },
+  "FEATSETTINGS_ColdFusion_TemperatureCelsiusBenefit_Desc": {
+    "English": "Sets the player temperature increase in degrees Celsius while using Cold Fusion.\nDefault: 2"
+  },
+  "FEATSETTINGS_EfficientMachine_NumDaysRequired_Name": {
+    "English": "Days Survived Required"
+  },
+  "FEATSETTINGS_EfficientMachine_NumDaysRequired_Desc": {
+    "English": "Sets required number of days survived to unlock Efficient Machine.\nDefault: 500"
+  },
+  "FEATSETTINGS_EfficientMachine_CalorieReductionBenefit_Name": {
+    "English": "Calorie Reduction Benefit"
+  },
+  "FEATSETTINGS_EfficientMachine_CalorieReductionBenefit_Desc": {
+    "English": "Sets the percent decrease in calorie usage while using Efficient Machine.\nDefault: 10%"
+  },
+  "FEATSETTINGS_ExpertTrapper_NumSnaredRabbitsRequired_Name": {
+    "English": "Rabbits Snared Required"
+  },
+  "FEATSETTINGS_ExpertTrapper_NumSnaredRabbitsRequired_Desc": {
+    "English": "Sets required number of rabbits snared to unlock Expert Trapper.\nDefault: 20"
+  },
+  "FEATSETTINGS_ExpertTrapper_ChanceIncreaseToCatchRabbitsPercent_Name": {
+    "English": "Snare Success Increase Benefit"
+  },
+  "FEATSETTINGS_ExpertTrapper_ChanceIncreaseToCatchRabbitsPercent_Desc": {
+    "English": "Sets the percent increase to snare success chance while using Expert Trapper.\nDefault: 25%"
+  },
+  "FEATSETTINGS_FireMaster_FiresRequired_Name": {
+    "English": "Number of Fires Required to Unlock"
+  },
+  "FEATSETTINGS_FireMaster_FiresRequired_Desc": {
+    "English": "Sets required number of fires started to unlock Fire Master.\nDefault: 1000"
+  },
+  "FEATSETTINGS_FireMaster_StartingLevel_Name": {
+    "English": "Fire Starting Skill Level Increase"
+  },
+  "FEATSETTINGS_FireMaster_StartingLevel_Desc": {
+    "English": "Sets the starting level of Fire Starting skill when using Fire Master in a new game.\nDefault: 3"
+  },
+  "FEATSETTINGS_FreeRunner_NumKilometersRequired_Name": {
+    "English": "Sprint Requirement (Kilometers)"
+  },
+  "FEATSETTINGS_FreeRunner_NumKilometersRequired_Desc": {
+    "English": "Sets required number of kilometers sprinted to unlock Free Runner.\nDefault: 50"
+  },
+  "FEATSETTINGS_FreeRunner_CalorieReductionBenefit_Name": {
+    "English": "Sprinting Calorie Reduction Benefit"
+  },
+  "FEATSETTINGS_FreeRunner_CalorieReductionBenefit_Desc": {
+    "English": "Sets the percent decrease to calorie consumption while spriting using Free Runner.\nDefault: 25"
+  },
+  "FEATSETTINGS_MasterHunter_KillCountRequirement_Name": {
+    "English": "Kill Count Requirement"
+  },
+  "FEATSETTINGS_MasterHunter_KillCountRequirement_Desc": {
+    "English": "Sets required of Cougar kills to unlock Big Cat Killer.\nMod default with current vanilla cougar: 9\nVanilla default from cougar 1.0: 3"
+  },
+  "FEATSETTINGS_MasterHunter_SoundDecreasePercent_Name": {
+    "English": "Sound Perception Decrease Percent"
+  },
+  "FEATSETTINGS_MasterHunter_SoundDecreasePercent_Desc": {
+    "English": "Sets AI sound perception decrease percent while using Big Cat Killer.\nDefault: 50%"
+  },
+  "FEATSETTINGS_MasterHunter_SightDecreasePercent_Name": {
+    "English": "Sight Perception Decrease Percent"
+  },
+  "FEATSETTINGS_MasterHunter_SightDecreasePercent_Desc": {
+    "English": "Sets AI sight perception decrease percent while using Big Cat Killer.\nDefault: 50%"
+  },
+  "FEATSETTINGS_MasterHunter_SmellDecreasePercent_Name": {
+    "English": "Smell Perception Decrease Percent"
+  },
+  "FEATSETTINGS_MasterHunter_SmellDecreasePercent_Desc": {
+    "English": "Sets AI smell perception decrease percent while using Big Cat Killer.\nDefault: 50%"
+  },
+  "FEATSETTINGS_NightWalker_DayFatigueScale_Name": {
+    "English": "Daytime Fatigue Scale Multiplier"
+  },
+  "FEATSETTINGS_NightWalker_DayFatigueScale_Desc": {
+    "English": "Sets the daytime fatigue scale multiplier when using Dark Walker.\nDefault: 200%"
+  },
+  "FEATSETTINGS_NightWalker_NightFatigueScale_Name": {
+    "English": "Nighttime Fatigue Scale Multiplier"
+  },
+  "FEATSETTINGS_NightWalker_NightFatigueScale_Desc": {
+    "English": "Sets the nighttime fatigue scale multiplier when using Dark Walker.\nDefault: 50%"
+  },
+  "FEATSETTINGS_SettledMind_PercentIncrease_Name": {
+    "English": "Reading Speed Increase"
+  },
+  "FEATSETTINGS_SettledMind_PercentIncrease_Desc": {
+    "English": "Sets the percent increase to reading speed while using Settled Mind.\nDefault: 20"
+  },
+  "FEATSETTINGS_SnowWalker_KilometersRequired_Name": {
+    "English": "Number of Kilometers Required"
+  },
+  "FEATSETTINGS_SnowWalker_KilometersRequired_Desc": {
+    "English": "Sets required number of kilometers traveled to unlock Snow Walker.\nDefault: 1000km"
+  },
+  "FEATSETTINGS_SnowWalker_StartingLevel_Name": {
+    "English": "Stamina Recharge Rate Increase"
+  },
+  "FEATSETTINGS_SnowWalker_StartingLevel_Desc": {
+    "English": "Sets the percent increase to stamina regeneration while using Snow Walker.\nDefault: 20% "
+  },
+  "FEATSETTINGS_StraightToTheHeart_ConsumablesRequired_Name": {
+    "English": "Consumable Count Requirement"
+  },
+  "FEATSETTINGS_StraightToTheHeart_ConsumablesRequired_Desc": {
+    "English": "Sets required number of consumables to unlock Straight to the Heart.\nDefault: 250"
+  },
+  "FEATSETTINGS_StraightToTheHeart_DurationIncrease_Name": {
+    "English": "Duration Increase"
+  },
+  "FEATSETTINGS_StraightToTheHeart_DurationIncrease_Desc": {
+    "English": "Sets the percent duration increase of consumables while using Straight to the Heart.\nDefault: 25%"
+  }
+}

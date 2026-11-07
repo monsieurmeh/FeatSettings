@@ -15,6 +15,8 @@ using ModData;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppTLD.Stats;
 using UnityEngine.AddressableAssets;
+using System.Reflection;
+using LocalizationUtilities;
 
 namespace FeatSettings
 {
@@ -65,6 +67,7 @@ namespace FeatSettings
         {
             mLogger = logger;
             ClassInjector.RegisterTypeInIl2Cpp<CustomFeat>();
+            LoadEmbeddedLocalization(typeof(FeatSettingsManager).Assembly, $"{ModName}.Localization.json");
             InitializeSystems();
             InitializeCustomSettings();
         }
@@ -237,10 +240,10 @@ namespace FeatSettings
                 UnityEngine.Object.DontDestroyOnLoad(featObject);
                 CustomFeat feat = featObject.AddComponent<CustomFeat>();
                 feat.m_FeatType = definition.FeatType;
-                feat.m_LocalizedDisplayName = NewLocalizedString(definition, nameof(CustomFeatDefinition.DisplayName));
-                feat.m_LocalizedDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.Description));
-                feat.m_LocalizedShortDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.ShortDescription));
-                feat.m_LocalizedBonusDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.BonusDescription));
+                feat.m_LocalizedDisplayName = NewLocalizedString(definition.DisplayName);
+                feat.m_LocalizedDescription = NewLocalizedString(definition.Description);
+                feat.m_LocalizedShortDescription = NewLocalizedString(definition.ShortDescription);
+                feat.m_LocalizedBonusDescription = NewLocalizedString(definition.BonusDescription);
                 feat.m_UnlockedBadge = NewBadgeReference(definition.UnlockedBadgeTexture, badgeFeat.m_UnlockedBadge);
                 feat.m_LockedBadge = NewBadgeReference(definition.LockedBadgeTexture, badgeFeat.m_LockedBadge);
                 feat.m_ActionsRadial = badgeFeat.m_ActionsRadial;
@@ -248,7 +251,6 @@ namespace FeatSettings
                 definition.Feat = feat;
                 Log($"Added custom feat {definition.Name} as feat type {(int)definition.FeatType}");
             }
-            AddCustomFeatLocalization();
         }
 
         private AssetReferenceTexture2D NewBadgeReference(Texture2D? texture, AssetReferenceTexture2D badge)
@@ -281,40 +283,24 @@ namespace FeatSettings
             }
         }
 
-        private static string LocalizationID(CustomFeatDefinition definition, string field) => $"{ModName}_{definition.Name}_{field}";
-
-        private LocalizedString NewLocalizedString(CustomFeatDefinition definition, string field)
+        private LocalizedString NewLocalizedString(string localizationID)
         {
             LocalizedString localizedString = new LocalizedString();
-            localizedString.m_LocalizationID = LocalizationID(definition, field);
+            localizedString.m_LocalizationID = localizationID;
             mCustomFeatLocalizedStrings.Add(localizedString);
             return localizedString;
         }
 
-        public void AddCustomFeatLocalization()
+        public bool LoadEmbeddedLocalization(Assembly assembly, string resourceName)
         {
-            StringTable stringTable = Localization.s_CurrentLanguageStringTable;
-            if (stringTable == null)
+            using Stream? stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null)
             {
-                return;
+                Log($"Error in FeatSettingsManager.LoadEmbeddedLocalization: no resource {resourceName} in {assembly.GetName().Name}!");
+                return false;
             }
-            int languageCount = stringTable.GetLanguages().Count;
-            foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
-            {
-                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.DisplayName)), definition.DisplayName);
-                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.Description)), definition.Description);
-                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.ShortDescription)), definition.ShortDescription);
-                AddLocalization(stringTable, languageCount, LocalizationID(definition, nameof(CustomFeatDefinition.BonusDescription)), definition.BonusDescription);
-            }
-        }
-
-        private static void AddLocalization(StringTable stringTable, int languageCount, string localizationID, string text)
-        {
-            StringTableData.Entry entry = stringTable.GetEntryFromKey(localizationID) ?? stringTable.AddEntryForKey(localizationID);
-            for (int i = 0; i < languageCount; i++)
-            {
-                entry.m_Languages[i] = text;
-            }
+            using StreamReader reader = new StreamReader(stream);
+            return LocalizationManager.LoadJsonLocalization(reader.ReadToEnd());
         }
 
         public bool TryGetCustomFeatDefinition(FeatType featType, out CustomFeatDefinition definition) => mCustomFeatDefinitions.TryGetValue(featType, out definition);
@@ -341,7 +327,6 @@ namespace FeatSettings
                     definition.ApplySettings();
                 }
             }
-            AddCustomFeatLocalization();
         }
 
         public void OnStatIncremented(StatID statID, float increment)

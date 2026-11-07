@@ -24,16 +24,16 @@ namespace FeatSettings
         public override Feat_SnowWalker GetFeat() => FeatsManager.m_Feat_SnowWalker;
 
 
-        [Section("Snow Walker")]
-        [Name("Number of Kilometers Required")]
+        [Section("GAMEPLAY_Feat_SnowWalker", Localize = true)]
+        [Name("FEATSETTINGS_SnowWalker_KilometersRequired_Name", Localize = true)]
         [Slider(100, 10000, 100)]
-        [Description("Sets required number of kilometers traveled to unlock Snow Walker.\nDefault: 1000km")]
+        [Description("FEATSETTINGS_SnowWalker_KilometersRequired_Desc")]
         public int KilometersRequired = 1000;
 
 
-        [Name("Stamina Recharge Rate Increase")]
+        [Name("FEATSETTINGS_SnowWalker_StartingLevel_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets the percent increase to stamina regeneration while using Snow Walker.\nDefault: 20% ")]
+        [Description("FEATSETTINGS_SnowWalker_StartingLevel_Desc")]
         public int StartingLevel = 20;
     }
 }

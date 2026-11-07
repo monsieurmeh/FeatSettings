@@ -26,16 +26,16 @@ namespace FeatSettings
         public override Feat_StraightToHeart GetFeat() => GameManager.m_FeatsManager.m_Feat_StraightToHeart_Prefab.GetComponent<Feat_StraightToHeart>();
 
 
-        [Section("Straight To The Heart")]
-        [Name("Consumable Count Requirement")]
+        [Section("GAMEPLAY_FeatStraightToTheHeart", Localize = true)]
+        [Name("FEATSETTINGS_StraightToTheHeart_ConsumablesRequired_Name", Localize = true)]
         [Slider(25, 2500, 100)]
-        [Description("Sets required number of consumables to unlock Straight to the Heart.\nDefault: 250")]
+        [Description("FEATSETTINGS_StraightToTheHeart_ConsumablesRequired_Desc")]
         public int ConsumablesRequired = 250;
 
 
-        [Name("Duration Increase")]
+        [Name("FEATSETTINGS_StraightToTheHeart_DurationIncrease_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets the percent duration increase of consumables while using Straight to the Heart.\nDefault: 25%")]
+        [Description("FEATSETTINGS_StraightToTheHeart_DurationIncrease_Desc")]
         public int DurationIncrease = 25;
     }
 }

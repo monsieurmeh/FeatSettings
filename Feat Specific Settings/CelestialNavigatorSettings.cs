@@ -23,10 +23,10 @@ namespace FeatSettings
         public override Feat_CelestialNavigator GetFeat() => FeatsManager.m_Feat_CelestialNavigator;
 
 
-        [Section("Celestial Navigator")]
-        [Name("Walking Speed Increase")]
+        [Section("GAMEPLAY_Feat_CelestialNavigator", Localize = true)]
+        [Name("FEATSETTINGS_CelestialNavigator_WalkingSpeedBoostPercent_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets the percent increase to walking speed during auroras or on clear nights while using Celestial Navigator.\nDefault: 10%")]
+        [Description("FEATSETTINGS_CelestialNavigator_WalkingSpeedBoostPercent_Desc")]
         public int WalkingSpeedBoostPercent = 10;
     }
 }

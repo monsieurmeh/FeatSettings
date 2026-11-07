@@ -22,10 +22,10 @@ namespace FeatSettings
         public override bool Vanilla { get { return true; } }
         public override Feat_SettledMind GetFeat() => FeatsManager.m_Feat_SettledMind;
 
-        [Section("Settled Mind")]
-        [Name("Reading Speed Increase")]
+        [Section("GAMEPLAY_Feat_SettledMind", Localize = true)]
+        [Name("FEATSETTINGS_SettledMind_PercentIncrease_Name", Localize = true)]
         [Slider(5, 100, 20)]
-        [Description("Sets the percent increase to reading speed while using Settled Mind.\nDefault: 20")]
+        [Description("FEATSETTINGS_SettledMind_PercentIncrease_Desc")]
         public int PercentIncrease = 20;
 
         //Hinterland buried the toggle for disabling cabin fever with this perk in the middle of a gigantic update method, so this isn't going to be a thing for a long time. Sorry :/
