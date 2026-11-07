@@ -26,6 +26,11 @@ namespace FeatSettings
         public virtual void OnStatIncremented(StatID statID, float increment) { }
         public virtual void ApplySettings() { }
         public virtual string FormatText(string text) { return text; }
+        public virtual void OnSave() { }
+        public virtual void OnLoad() { }
+
+        public void Save(string key, string value) { FeatSettingsManager.Instance.SaveCustomFeatData(this, key, value); }
+        public string? Load(string key) { return FeatSettingsManager.Instance.LoadCustomFeatData(this, key); }
     }
 
 

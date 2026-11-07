@@ -43,9 +43,11 @@ namespace FeatSettings
         {
             [Include] int mCougarsKilled = 0;
             [Include] Dictionary<string, float> mCustomFeatProgress = new Dictionary<string, float>();
+            [Include] Dictionary<string, string> mCustomFeatData = new Dictionary<string, string>();
 
             public int CougarsKilled { get { return mCougarsKilled; } set { mCougarsKilled = value; } }
             public Dictionary<string, float> CustomFeatProgress { get { return mCustomFeatProgress; } }
+            public Dictionary<string, string> CustomFeatData { get { return mCustomFeatData; } }
         }
 
         private const string ModName = "FeatSettings";
@@ -111,14 +113,37 @@ namespace FeatSettings
         public void LoadModData()
         {
             string profileData = mModDataManager.LoadFromProfile();
-            if (string.IsNullOrEmpty(profileData))
-                return;
-            Variant variant = JSON.Load(profileData);
-            JSON.Populate(variant, mData);
+            if (!string.IsNullOrEmpty(profileData))
+            {
+                Variant variant = JSON.Load(profileData);
+                JSON.Populate(variant, mData);
+            }
+            foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
+            {
+                try
+                {
+                    definition.OnLoad();
+                }
+                catch (Exception e)
+                {
+                    Log($"Error in FeatSettingsManager.LoadModData: {definition.Name} OnLoad failed: {e}");
+                }
+            }
         }
 
         public void SaveModData()
         {
+            foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
+            {
+                try
+                {
+                    definition.OnSave();
+                }
+                catch (Exception e)
+                {
+                    Log($"Error in FeatSettingsManager.SaveModData: {definition.Name} OnSave failed: {e}");
+                }
+            }
             string profileData = JSON.Dump(mData, EncodeOptions.NoTypeHints);
             if (string.IsNullOrEmpty(profileData))
                 return;
@@ -343,6 +368,10 @@ namespace FeatSettings
         }
 
         public bool TryGetCustomFeatDefinition(FeatType featType, out CustomFeatDefinition definition) => mCustomFeatDefinitions.TryGetValue(featType, out definition);
+
+        public void SaveCustomFeatData(CustomFeatDefinition definition, string key, string value) => mData.CustomFeatData[$"{definition.Name}.{key}"] = value;
+
+        public string? LoadCustomFeatData(CustomFeatDefinition definition, string key) => mData.CustomFeatData.TryGetValue($"{definition.Name}.{key}", out string? value) ? value : null;
 
         public float GetCustomFeatProgress(CustomFeatDefinition definition) => mData.CustomFeatProgress.TryGetValue(definition.Name, out float progress) ? progress : 0.0f;
 
