@@ -25,6 +25,7 @@ namespace FeatSettings
 
         public virtual void OnStatIncremented(StatID statID, float increment) { }
         public virtual void ApplySettings() { }
+        public virtual string FormatText(string text) { return text; }
     }
 
 
@@ -49,6 +50,27 @@ namespace FeatSettings
                 return;
             }
             definition.Progress = normalizedProgress;
+        }
+
+        public override string GetDescription()
+        {
+            return GetText(m_LocalizedDescription);
+        }
+
+        public override string GetShortDescription()
+        {
+            return GetText(m_LocalizedShortDescription);
+        }
+
+        public override string GetBonusDescription()
+        {
+            return GetText(m_LocalizedBonusDescription);
+        }
+
+        private string GetText(LocalizedString? localizedString)
+        {
+            string text = localizedString == null ? string.Empty : Localization.Get(localizedString.m_LocalizationID);
+            return FeatSettingsManager.Instance.TryGetCustomFeatDefinition(m_FeatType, out CustomFeatDefinition? definition) ? definition.FormatText(text) : text;
         }
     }
 }
