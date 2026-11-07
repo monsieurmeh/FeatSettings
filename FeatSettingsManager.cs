@@ -44,6 +44,7 @@ namespace FeatSettings
         private Settings mSettings;
         private Dictionary<Type, FeatSpecificSettingsBase> mFeatSettingsDict = new Dictionary<Type, FeatSpecificSettingsBase>();
         private Dictionary<string, FeatSpecificSettingsBase> mFeatSettingsByNameDict = new Dictionary<string, FeatSpecificSettingsBase>();
+        private Dictionary<FeatType, CustomFeatDefinition> mCustomFeatDefinitions = new Dictionary<FeatType, CustomFeatDefinition>();
         private MelonLogger.Instance mLogger;
         private FeatSettingsData mData = new FeatSettingsData();
         private ModDataManager mModDataManager = new ModDataManager(ModName);
@@ -210,6 +211,12 @@ namespace FeatSettings
 
         public bool TryGetFeatSpecificSettingsByName(string featName, out FeatSpecificSettingsBase settings) => mFeatSettingsByNameDict.TryGetValue(featName.ToLower(), out settings);
 
+        #region Custom Feats
+
+        public bool TryGetCustomFeatDefinition(FeatType featType, out CustomFeatDefinition definition) => mCustomFeatDefinitions.TryGetValue(featType, out definition);
+
+        #endregion
+
         #region Console Commands
 
         public void Console_SetCougarKills()
@@ -301,6 +308,17 @@ namespace FeatSettings
                 return false;
             }
             Log($"FeatSettingsMaanger.RegisterFeat: Registered feat type {type.Name}'s featsettings {featSettings.GetType()}!");
+            return true;
+        }
+
+        public bool TryRegisterCustomFeat(CustomFeatDefinition definition)
+        {
+            if ((int)definition.FeatType <= (int)FeatType.CelestialNavigator || !mCustomFeatDefinitions.TryAdd(definition.FeatType, definition))
+            {
+                Log($"Error in FeatSettingsManager.TryRegisterCustomFeat: Could not add custom feat {definition.Name}, feat type {(int)definition.FeatType} is a vanilla feat or already added!");
+                return false;
+            }
+            Log($"FeatSettingsManager.TryRegisterCustomFeat: Registered custom feat {definition.Name} as feat type {(int)definition.FeatType}!");
             return true;
         }
 
