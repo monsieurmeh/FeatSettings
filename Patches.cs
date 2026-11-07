@@ -161,24 +161,6 @@ namespace FeatSettings
             FeatSettingsManager manager = FeatSettingsManager.Instance;
             if (__instance.m_ActiveFeatObjects == null) return;
             if (__instance.m_ActiveFeatObjects.Count == 0) return;
-            if (__instance.m_ActiveFeatObjects.Count < 9)
-            {
-                manager.Log($"active feat count: {__instance.m_ActiveFeatObjects.Count}");
-                GameObject[] newActiveFeatObjects = new GameObject[9];
-                for (int i = 0, iMax = __instance.m_ActiveFeatObjects.Count; i < iMax; i++)
-                {
-                    manager.Log($"copying object {i}");
-                    newActiveFeatObjects[i] = __instance.m_ActiveFeatObjects[i];
-                    manager.Log($"copied object {i}");
-                }
-                for (int i = __instance.m_ActiveFeatObjects.Count, iMax = 9; i < iMax; i++)
-                {
-                    manager.Log($"instantiating object {i}");
-                    newActiveFeatObjects[i] = GameObject.Instantiate(newActiveFeatObjects[i - 1], newActiveFeatObjects[i - 1].transform.parent);
-                    manager.Log($"instantiated object {i}");
-                }
-                __instance.m_ActiveFeatObjects = newActiveFeatObjects;
-            }
             GameModeConfig currentConfig = ExperienceModeManager.s_CurrentGameMode;
             if (currentConfig == null)
             {
@@ -201,6 +183,7 @@ namespace FeatSettings
                 case ExperienceModeType.Custom: __result = manager.Settings.CustomFeatCount; break;
                 default: __result = 0; break;
             }
+            manager.UpdateActiveFeatSlots(__instance, __result);
         }
     }
 

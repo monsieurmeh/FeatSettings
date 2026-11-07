@@ -49,10 +49,15 @@ namespace FeatSettings
         }
 
         private const string ModName = "FeatSettings";
+        private const int MaxActiveFeatSlotsPerRow = 9;
         private Settings mSettings;
         private Dictionary<Type, FeatSpecificSettingsBase> mFeatSettingsDict = new Dictionary<Type, FeatSpecificSettingsBase>();
         private Dictionary<string, FeatSpecificSettingsBase> mFeatSettingsByNameDict = new Dictionary<string, FeatSpecificSettingsBase>();
         private Dictionary<FeatType, CustomFeatDefinition> mCustomFeatDefinitions = new Dictionary<FeatType, CustomFeatDefinition>();
+        private int mActiveFeatSlotCount;
+        private Vector3 mActiveFeatSlotPosition;
+        private Vector3 mActiveFeatSlotScale;
+        private float mActiveFeatSlotSpacing;
         private List<LocalizedString> mCustomFeatLocalizedStrings = new List<LocalizedString>();
         private List<AssetReferenceTexture2D> mCustomBadgeReferences = new List<AssetReferenceTexture2D>();
         private Dictionary<IntPtr, Texture2D> mCustomBadgeTextures = new Dictionary<IntPtr, Texture2D>();
@@ -223,6 +228,40 @@ namespace FeatSettings
         }
 
         public bool TryGetFeatSpecificSettingsByName(string featName, out FeatSpecificSettingsBase settings) => mFeatSettingsByNameDict.TryGetValue(featName.ToLower(), out settings);
+
+        public void UpdateActiveFeatSlots(Panel_MainMenu panel, int count)
+        {
+            if (mActiveFeatSlotCount == 0)
+            {
+                mActiveFeatSlotCount = panel.m_ActiveFeatObjects.Count;
+                mActiveFeatSlotPosition = panel.m_ActiveFeatObjects[0].transform.localPosition;
+                mActiveFeatSlotScale = panel.m_ActiveFeatObjects[0].transform.localScale;
+                mActiveFeatSlotSpacing = mActiveFeatSlotCount > 1 ? panel.m_ActiveFeatObjects[1].transform.localPosition.x - mActiveFeatSlotPosition.x : 60.0f;
+            }
+            if (panel.m_ActiveFeatObjects.Count < count)
+            {
+                GameObject[] slots = new GameObject[count];
+                for (int i = 0, iMax = panel.m_ActiveFeatObjects.Count; i < iMax; i++)
+                {
+                    slots[i] = panel.m_ActiveFeatObjects[i];
+                }
+                for (int i = panel.m_ActiveFeatObjects.Count; i < count; i++)
+                {
+                    slots[i] = UnityEngine.Object.Instantiate(slots[i - 1], slots[i - 1].transform.parent);
+                }
+                panel.m_ActiveFeatObjects = slots;
+            }
+            bool expanded = count > mActiveFeatSlotCount;
+            float center = mActiveFeatSlotPosition.x + (mActiveFeatSlotCount - 1) * mActiveFeatSlotSpacing * 0.5f;
+            float spacing = expanded ? Math.Min(mActiveFeatSlotSpacing, mActiveFeatSlotSpacing * MaxActiveFeatSlotsPerRow / count) : mActiveFeatSlotSpacing;
+            for (int i = 0, iMax = panel.m_ActiveFeatObjects.Count; i < iMax; i++)
+            {
+                Transform slot = panel.m_ActiveFeatObjects[i].transform;
+                float x = expanded ? center + (i - (count - 1) * 0.5f) * spacing : mActiveFeatSlotPosition.x + i * mActiveFeatSlotSpacing;
+                slot.localPosition = new Vector3(x, mActiveFeatSlotPosition.y, mActiveFeatSlotPosition.z);
+                slot.localScale = mActiveFeatSlotScale * (spacing / mActiveFeatSlotSpacing);
+            }
+        }
 
         #region Custom Feats
 
