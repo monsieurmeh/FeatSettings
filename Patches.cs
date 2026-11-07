@@ -140,6 +140,14 @@ namespace FeatSettings
                 FeatSettingsManager.Instance.Log($"Attempting to stop kicker display!");
                 return !SceneUtilities.IsSceneMenu(SceneUtilities.GetActiveSceneName());
             }
+
+            private static void Postfix(AssetReferenceTexture2D textureReference)
+            {
+                if (!FeatSettingsManager.Instance.TryGetCustomBadgeTexture(textureReference, out Texture2D? texture)) return;
+                Panel_HUD hud = InterfaceManager.GetPanel<Panel_HUD>();
+                if (hud == null) return;
+                hud.m_FeatUnlockedBadgeIcon.mainTexture = texture;
+            }
         }
 
         [HarmonyPatch(typeof(ConsoleManager), nameof(ConsoleManager.Initialize))]
