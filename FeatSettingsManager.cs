@@ -360,6 +360,23 @@ namespace FeatSettings
             }
         }
 
+        public void ApplyCustomBadgeTextures(Panel_PauseMenu pauseMenu)
+        {
+            FeatsManager featsManager = GameManager.GetFeatsManager();
+            if (featsManager == null || pauseMenu.m_ActiveFeatObjects == null) return;
+            Il2CppSystem.Collections.Generic.List<FeatType> enabledFeats = FeatEnabledTracker.m_FeatsEnabledThisSandbox;
+            for (int i = 0, iMax = Math.Min(enabledFeats.Count, pauseMenu.m_ActiveFeatObjects.Length); i < iMax; i++)
+            {
+                Feat feat = featsManager.GetFeat(enabledFeats[i]);
+                if (feat == null) continue;
+                Texture2D? texture = GetCustomBadgeTexture(feat.m_UnlockedBadge);
+                if (texture == null) continue;
+                UITexture uiTexture = pauseMenu.m_ActiveFeatObjects[i].GetComponentInChildren<UITexture>(true);
+                if (uiTexture == null) continue;
+                uiTexture.mainTexture = texture;
+            }
+        }
+
         private LocalizedString NewLocalizedString(string localizationID)
         {
             LocalizedString localizedString = new LocalizedString();

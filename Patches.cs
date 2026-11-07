@@ -74,6 +74,15 @@ namespace FeatSettings
             }
         }
 
+        [HarmonyPatch(typeof(Panel_PauseMenu), nameof(Panel_PauseMenu.UpdateSelectedFeats))]
+        private static class Panel_PauseMenuPatches_UpdateSelectedFeats
+        {
+            private static void Postfix(Panel_PauseMenu __instance)
+            {
+                FeatSettingsManager.Instance.ApplyCustomBadgeTextures(__instance);
+            }
+        }
+
         [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.IncrementValue), new Type[] { typeof(StatID), typeof(float) })]
         private static class StatsManagerPatches_IncrementValue
         {
