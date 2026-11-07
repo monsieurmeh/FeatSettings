@@ -14,6 +14,7 @@ using UnityEngine;
 using ModData;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppTLD.Stats;
+using UnityEngine.AddressableAssets;
 
 namespace FeatSettings
 {
@@ -51,6 +52,8 @@ namespace FeatSettings
         private Dictionary<string, FeatSpecificSettingsBase> mFeatSettingsByNameDict = new Dictionary<string, FeatSpecificSettingsBase>();
         private Dictionary<FeatType, CustomFeatDefinition> mCustomFeatDefinitions = new Dictionary<FeatType, CustomFeatDefinition>();
         private List<LocalizedString> mCustomFeatLocalizedStrings = new List<LocalizedString>();
+        private List<AssetReferenceTexture2D> mCustomBadgeReferences = new List<AssetReferenceTexture2D>();
+        private Dictionary<IntPtr, Texture2D> mCustomBadgeTextures = new Dictionary<IntPtr, Texture2D>();
         private MelonLogger.Instance mLogger;
         private FeatSettingsData mData = new FeatSettingsData();
         private ModDataManager mModDataManager = new ModDataManager(ModName);
@@ -238,14 +241,33 @@ namespace FeatSettings
                 feat.m_LocalizedDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.Description));
                 feat.m_LocalizedShortDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.ShortDescription));
                 feat.m_LocalizedBonusDescription = NewLocalizedString(definition, nameof(CustomFeatDefinition.BonusDescription));
-                feat.m_UnlockedBadge = badgeFeat.m_UnlockedBadge;
-                feat.m_LockedBadge = badgeFeat.m_LockedBadge;
+                feat.m_UnlockedBadge = NewBadgeReference(definition.UnlockedBadgeTexture, badgeFeat.m_UnlockedBadge);
+                feat.m_LockedBadge = NewBadgeReference(definition.LockedBadgeTexture, badgeFeat.m_LockedBadge);
                 feat.m_ActionsRadial = badgeFeat.m_ActionsRadial;
                 FeatsManager.m_Feats.Add(feat);
                 definition.Feat = feat;
                 Log($"Added custom feat {definition.Name} as feat type {(int)definition.FeatType}");
             }
             AddCustomFeatLocalization();
+        }
+
+        private AssetReferenceTexture2D NewBadgeReference(Texture2D? texture, AssetReferenceTexture2D badge)
+        {
+            if (texture == null)
+            {
+                return badge;
+            }
+            AssetReferenceTexture2D reference = new AssetReferenceTexture2D(badge.AssetGUID);
+            texture.hideFlags = HideFlags.DontUnloadUnusedAsset;
+            mCustomBadgeReferences.Add(reference);
+            mCustomBadgeTextures[reference.Pointer] = texture;
+            return reference;
+        }
+
+        public bool TryGetCustomBadgeTexture(AssetReferenceTexture2D? reference, [NotNullWhen(true)] out Texture2D? texture)
+        {
+            texture = null;
+            return reference != null && mCustomBadgeTextures.TryGetValue(reference.Pointer, out texture);
         }
 
         private static string LocalizationID(CustomFeatDefinition definition, string field) => $"{ModName}_{definition.Name}_{field}";

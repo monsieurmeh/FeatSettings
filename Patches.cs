@@ -62,6 +62,17 @@ namespace FeatSettings
             }
         }
 
+        [HarmonyPatch(typeof(Panel_MainMenu), nameof(Panel_MainMenu.LoadFeatureIcon))]
+        private static class Panel_MainMenuPatches_LoadFeatureIcon
+        {
+            private static bool Prefix(UITexture targetTexture, AssetReferenceTexture2D spriteReference)
+            {
+                if (!FeatSettingsManager.Instance.TryGetCustomBadgeTexture(spriteReference, out Texture2D? texture)) return true;
+                targetTexture.mainTexture = texture;
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.IncrementValue), new Type[] { typeof(StatID), typeof(float) })]
         private static class StatsManagerPatches_IncrementValue
         {

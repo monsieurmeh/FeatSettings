@@ -1,6 +1,7 @@
 ﻿using Il2Cpp;
 using MelonLoader;
 using Il2CppTLD.Stats;
+using UnityEngine;
 
 
 namespace FeatSettings
@@ -14,6 +15,8 @@ namespace FeatSettings
         public abstract string ShortDescription { get; }
         public abstract string BonusDescription { get; }
         public abstract FeatType BadgeFeat { get; }
+        public virtual Texture2D? UnlockedBadgeTexture { get { return null; } }
+        public virtual Texture2D? LockedBadgeTexture { get { return null; } }
 
         public CustomFeat? Feat { get; internal set; }
         public float Progress { get { return FeatSettingsManager.Instance.GetCustomFeatProgress(this); } set { FeatSettingsManager.Instance.SetCustomFeatProgress(this, value); } }
