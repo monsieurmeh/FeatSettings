@@ -62,6 +62,15 @@ namespace FeatSettings
             }
         }
 
+        [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.IncrementValue), new Type[] { typeof(StatID), typeof(float) })]
+        private static class StatsManagerPatches_IncrementValue
+        {
+            private static void Postfix(StatID id, float increment)
+            {
+                FeatSettingsManager.Instance.OnStatIncremented(id, increment);
+            }
+        }
+
         [HarmonyPatch(typeof(FeatsManager), nameof(FeatsManager.InstantiateFeatPrefab), new Type[] { typeof(GameObject) })]
         private static class FeatsManagerPatches_InstantiateFeatPrefab
         {

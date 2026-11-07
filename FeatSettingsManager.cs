@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using ModData;
 using Il2CppInterop.Runtime.Injection;
+using Il2CppTLD.Stats;
 
 namespace FeatSettings
 {
@@ -37,8 +38,10 @@ namespace FeatSettings
         public class FeatSettingsData
         {
             [Include] int mCougarsKilled = 0;
+            [Include] Dictionary<string, float> mCustomFeatProgress = new Dictionary<string, float>();
 
             public int CougarsKilled { get { return mCougarsKilled; } set { mCougarsKilled = value; } }
+            public Dictionary<string, float> CustomFeatProgress { get { return mCustomFeatProgress; } }
         }
 
         private const string ModName = "FeatSettings";
@@ -281,6 +284,27 @@ namespace FeatSettings
         }
 
         public bool TryGetCustomFeatDefinition(FeatType featType, out CustomFeatDefinition definition) => mCustomFeatDefinitions.TryGetValue(featType, out definition);
+
+        public float GetCustomFeatProgress(CustomFeatDefinition definition) => mData.CustomFeatProgress.TryGetValue(definition.Name, out float progress) ? progress : 0.0f;
+
+        public void SetCustomFeatProgress(CustomFeatDefinition definition, float progress)
+        {
+            bool wasUnlocked = GetCustomFeatProgress(definition) >= 1.0f;
+            mData.CustomFeatProgress[definition.Name] = progress;
+            if (!wasUnlocked && progress >= 1.0f && definition.Feat != null)
+            {
+                Log($"Custom feat {definition.Name} unlocked!");
+                definition.Feat.HandleOnFeatUnlocked();
+            }
+        }
+
+        public void OnStatIncremented(StatID statID, float increment)
+        {
+            foreach (CustomFeatDefinition definition in mCustomFeatDefinitions.Values)
+            {
+                definition.OnStatIncremented(statID, increment);
+            }
+        }
 
         #endregion
 

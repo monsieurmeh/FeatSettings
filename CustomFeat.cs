@@ -16,11 +16,34 @@ namespace FeatSettings
         public abstract FeatType BadgeFeat { get; }
 
         public CustomFeat? Feat { get; internal set; }
+        public float Progress { get { return FeatSettingsManager.Instance.GetCustomFeatProgress(this); } set { FeatSettingsManager.Instance.SetCustomFeatProgress(this, value); } }
+        public bool IsUnlockedAndEnabled { get { return Feat != null && Feat.IsUnlockedAndEnabled(); } }
+
+        public virtual void OnStatIncremented(StatID statID, float increment) { }
     }
 
 
     public class CustomFeat : Feat
     {
         public CustomFeat(IntPtr ptr) : base(ptr) { }
+
+        public override bool IsUnlocked()
+        {
+            return FeatSettingsManager.Instance.TryGetCustomFeatDefinition(m_FeatType, out CustomFeatDefinition? definition) && definition.Progress >= 1.0f;
+        }
+
+        public override float GetNormalizedProgress()
+        {
+            return FeatSettingsManager.Instance.TryGetCustomFeatDefinition(m_FeatType, out CustomFeatDefinition? definition) ? Math.Clamp(definition.Progress, 0.0f, 1.0f) : 0.0f;
+        }
+
+        public override void SetNormalizedProgress(float normalizedProgress)
+        {
+            if (!FeatSettingsManager.Instance.TryGetCustomFeatDefinition(m_FeatType, out CustomFeatDefinition? definition))
+            {
+                return;
+            }
+            definition.Progress = normalizedProgress;
+        }
     }
 }
