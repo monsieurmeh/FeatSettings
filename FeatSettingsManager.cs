@@ -6,6 +6,7 @@ using TLD.TinyJSON;
 using MelonLoader.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -331,60 +332,51 @@ namespace FeatSettings
 
         public void Console_EnableFeat()
         {
-            string featName = uConsole.GetString();
-            if (featName == null || featName.Length == 0)
-            {
-                Log($"Enter feat name!");
-                return;
-            }
-            if (!TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings))
-            {
-                Log($"Invalid feat name!");
-                return;
-            }
-            if (!settings.BaseFeat.IsUnlocked())
-            {
-                Log($"You must unlock this feat first!");
-                return;
-            }
-            if (settings.Vanilla)
-            {
-                if (FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(settings.BaseFeat.m_FeatType)) return;
-                FeatEnabledTracker.m_FeatsEnabledThisSandbox.Add(settings.BaseFeat.m_FeatType);
-            }
-            else
-            {
-                Log($"Non vanilla feats WIP!");
-            }
+            if (!TryGetConsoleFeat(out Feat? feat)) return;
+            if (FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(feat.m_FeatType)) return;
+            FeatEnabledTracker.m_FeatsEnabledThisSandbox.Add(feat.m_FeatType);
         }
 
         public void Console_DisableFeat()
         {
+            if (!TryGetConsoleFeat(out Feat? feat)) return;
+            if (!FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(feat.m_FeatType)) return;
+            FeatEnabledTracker.m_FeatsEnabledThisSandbox.Remove(feat.m_FeatType);
+        }
+
+        private bool TryGetConsoleFeat([NotNullWhen(true)] out Feat? feat)
+        {
+            feat = null;
             string featName = uConsole.GetString();
             if (featName == null || featName.Length == 0)
             {
                 Log($"Enter feat name!");
-                return;
+                return false;
             }
-            if (!TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings))
+            if (TryGetFeatSpecificSettingsByName(featName, out FeatSpecificSettingsBase settings))
             {
-                Log($"Invalid feat name!");
-                return;
-            }
-            if (!settings.BaseFeat.IsUnlocked())
-            {
-                Log($"You must unlock this feat first!");
-                return;
-            }
-            if (settings.Vanilla)
-            {
-                if (!FeatEnabledTracker.m_FeatsEnabledThisSandbox.Contains(settings.BaseFeat.m_FeatType)) return;
-                FeatEnabledTracker.m_FeatsEnabledThisSandbox.Remove(settings.BaseFeat.m_FeatType);
+                if (!settings.Vanilla)
+                {
+                    Log($"Non vanilla feats WIP!");
+                    return false;
+                }
+                feat = settings.BaseFeat;
             }
             else
             {
-                Log($"Non vanilla feats WIP!");
+                feat = mCustomFeatDefinitions.Values.FirstOrDefault(definition => definition.Name.ToLower() == featName.ToLower())?.Feat;
             }
+            if (feat == null)
+            {
+                Log($"Invalid feat name!");
+                return false;
+            }
+            if (!feat.IsUnlocked())
+            {
+                Log($"You must unlock this feat first!");
+                return false;
+            }
+            return true;
         }
 
         #endregion
