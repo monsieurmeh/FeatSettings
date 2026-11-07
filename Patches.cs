@@ -73,6 +73,15 @@ namespace FeatSettings
             }
         }
 
+        [HarmonyPatch(typeof(Panel_Badges), nameof(Panel_Badges.SetupFeatScrollList))]
+        private static class Panel_BadgesPatches_SetupFeatScrollList
+        {
+            private static void Postfix(Panel_Badges __instance)
+            {
+                FeatSettingsManager.Instance.ApplyCustomBadgeTextures(__instance.m_Feats, __instance.m_FeatsScrollList);
+            }
+        }
+
         [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.IncrementValue), new Type[] { typeof(StatID), typeof(float) })]
         private static class StatsManagerPatches_IncrementValue
         {

@@ -270,6 +270,17 @@ namespace FeatSettings
             return reference != null && mCustomBadgeTextures.TryGetValue(reference.Pointer, out texture);
         }
 
+        public void ApplyCustomBadgeTextures(Il2CppSystem.Collections.Generic.List<BadgeInfo> badges, ScrollList scrollList)
+        {
+            for (int i = 0, iMax = Math.Min(badges.Count, scrollList.m_ScrollObjects.Count); i < iMax; i++)
+            {
+                if (!TryGetCustomBadgeTexture(badges[i].m_Sprite, out Texture2D? texture)) continue;
+                UITexture uiTexture = scrollList.m_ScrollObjects[i].GetComponentInChildren<UITexture>(true);
+                if (uiTexture == null) continue;
+                uiTexture.mainTexture = texture;
+            }
+        }
+
         private static string LocalizationID(CustomFeatDefinition definition, string field) => $"{ModName}_{definition.Name}_{field}";
 
         private LocalizedString NewLocalizedString(CustomFeatDefinition definition, string field)
